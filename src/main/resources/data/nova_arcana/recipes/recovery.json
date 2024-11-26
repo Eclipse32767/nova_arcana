@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#F#",
+    "FGF",
+    "#F#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:gunpowder"
+    },
+    "F": {
+      "item": "minecraft:glistering_melon_slice"
+    },
+    "G": {
+      "item": "minecraft:quartz"
+    }
+  },
+  "result": {
+    "item": "nova_arcana:mat-recovery",
+    "count": 1
+  }
+}

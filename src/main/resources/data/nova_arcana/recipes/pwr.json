@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#F#",
+    "FGF",
+    "#F#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_ingot"
+    },
+    "F": {
+      "item": "minecraft:golden_sword"
+    },
+    "G": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "nova_arcana:mat-pwr",
+    "count": 1
+  }
+}

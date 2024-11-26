@@ -1,0 +1,11 @@
+{
+  "item.nova_arcana.wand": "Wand",
+  "itemGroup.nova_arcana.wands": "Nova Arcana: Staffs",
+  "itemGroup.nova_arcana.blocks": "Nova Arcana: Blocks",
+  "block.nova_arcana.staff-workbench": "Staff Workbench",
+  "itemGroup.nova_arcana.spells": "Nova Arcana: Spells",
+  "category.nova_arcana.spellcasting": "Nova Arcana: Spellcasting",
+  "key.nova_arcana.swap_spell": "Swap Active Spell",
+  "item.nova_arcana.ruby": "Alchemical Ruby",
+  "item.nova_arcana.amber": "Amber"
+}

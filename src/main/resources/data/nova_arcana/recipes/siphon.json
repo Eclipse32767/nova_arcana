@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "FGF",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:rotten_flesh"
+    },
+    "F": {
+      "item": "minecraft:ender_pearl"
+    },
+    "G": {
+      "item": "minecraft:amethyst_block"
+    }
+  },
+  "result": {
+    "item": "nova_arcana:mat-siphon",
+    "count": 1
+  }
+}

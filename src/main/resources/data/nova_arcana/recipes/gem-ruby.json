@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "###",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "nova_arcana:ruby"
+    }
+  },
+  "result": {
+    "item": "nova_arcana:wand-gem-ruby",
+    "count": 1
+  }
+}

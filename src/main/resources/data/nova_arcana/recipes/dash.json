@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "FGF",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:sugar"
+    },
+    "F": {
+      "item": "minecraft:phantom_membrane"
+    },
+    "G": {
+      "item": "nova_arcana:amber"
+    }
+  },
+  "result": {
+    "item": "nova_arcana:mat-dash",
+    "count": 1
+  }
+}

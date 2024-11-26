@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "###",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:feather"
+    }
+  },
+  "result": {
+    "item": "nova_arcana:amber",
+    "count": 1
+  }
+}
