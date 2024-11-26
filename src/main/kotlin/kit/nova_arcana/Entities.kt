@@ -1,11 +1,14 @@
 package kit.nova_arcana
 
+import kit.nova_arcana.entities.*
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricEntityTypeBuilder
+import net.minecraft.block.Blocks
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.SpawnGroup
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.BlockPos
 
 object ModEntities {
     val FireballProjType = Registry.register(Registries.ENTITY_TYPE, Identifier("nova_arcana:fire_bolt"),
@@ -24,4 +27,10 @@ object ModEntities {
         FabricEntityTypeBuilder.create(SpawnGroup.MISC) { type, world -> ExcavateItem(type, world) }.dimensions(
             EntityDimensions(0.5F, 0.5F, true)
         ).trackRangeBlocks(10).trackedUpdateRate(10).build())
+    val PlacementType = Registry.register(Registries.ENTITY_TYPE, Identifier("nova_arcana:placement_wisp"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MISC) {type, world -> PlacementWisp(type, world, BlockPos.ORIGIN, Blocks.AIR.defaultState) }
+            .dimensions(
+                EntityDimensions(0.5f, 0.5f, true)
+            )
+            .trackRangeBlocks(80).trackedUpdateRate(10).build())
 }

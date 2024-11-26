@@ -1,6 +1,9 @@
-package kit.nova_arcana
+package kit.nova_arcana.entities
 
-import dev.onyxstudios.cca.api.v3.entity.PlayerComponent
+import kit.nova_arcana.ManaHandle
+import kit.nova_arcana.ModBlocks
+import kit.nova_arcana.ModEntities
+import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ItemEntity
@@ -13,23 +16,18 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.registry.RegistryKeys
-import net.minecraft.text.Text
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
-import net.minecraft.world.PersistentState
 import net.minecraft.world.World
-import team.lodestar.lodestone.handlers.FireEffectHandler
+import org.slf4j.LoggerFactory
 import team.lodestar.lodestone.registry.common.particle.LodestoneParticleRegistry
 import team.lodestar.lodestone.systems.easing.Easing
-import team.lodestar.lodestone.systems.fireeffect.FireEffectInstance
 import team.lodestar.lodestone.systems.particle.builder.WorldParticleBuilder
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData
 import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData
 import java.awt.Color
-import kotlin.math.atan
-import kotlin.math.sqrt
 
 class FireballProj : ThrownItemEntity {
     private var lifespan = 0
@@ -300,6 +298,59 @@ class ExcavateItem: ThrownItemEntity {
             if (this.pos.distanceTo(target) <= 1.0) {
                 drop()
             }
+        }
+    }
+}
+class PlacementWisp(type: EntityType<PlacementWisp>, world: World, val dest: BlockPos, val block: BlockState): ThrownItemEntity(type, world) {
+    val logger = LoggerFactory.getLogger("nova_arcana")
+    override fun getDefaultItem(): Item {
+        return Items.AIR
+    }
+    fun mvTowardTrgt() {
+        val diff = dest.toCenterPos() - pos
+        this.setVelocity(diff.x, diff.y, diff.z, 0.5F, 0.0F)
+    }
+    val particleBuilder: WorldParticleBuilder
+        get() {
+            val startCol = Color(5, 104, 186)
+            val edCol = Color(93, 239, 252)
+            val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
+            spawner.scaleData = GenericParticleData.create(0.75f, 0.0f).build()
+            spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
+            spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
+            spawner.setLifetime(40)
+            spawner.enableNoClip()
+            return spawner
+        }
+    val outlineBuilder: WorldParticleBuilder
+        get() {
+            val startCol = Color(5, 104, 186)
+            val edCol = Color(93, 239, 252)
+            val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
+            spawner.scaleData = GenericParticleData.create(0.25f, 0.0f).build()
+            spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
+            spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
+            spawner.setLifetime(40)
+            spawner.enableNoClip()
+            return spawner
+        }
+    fun spawnParticle() {
+        particleBuilder.spawn(world, x, y, z)
+    }
+    override fun tick() {
+        super.tick()
+        //mvTowardTrgt()
+        spawnParticle()
+        if (pos.distanceTo(dest.toCenterPos()) < 1) {
+            if (!world.isClient) {
+                world.setBlockState(dest, block)
+            } else {
+                for (i in 0..5) particleBuilder.createBlockOutline(world, dest, block)
+            }
+
+            //logger.atInfo().log(dest.toString())
+
+            kill()
         }
     }
 }

@@ -1,5 +1,7 @@
 package kit.nova_arcana
 
+import kit.nova_arcana.blocks.StaffWorkbench
+import kit.nova_arcana.blocks.SupportBlk
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block

@@ -1,17 +1,8 @@
-package kit.nova_arcana
+package kit.nova_arcana.components
 
-import com.sun.tools.javac.code.Attribute
-import dev.onyxstudios.cca.api.v3.component.Component
-import dev.onyxstudios.cca.api.v3.component.ComponentRegistry
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent
-import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent
 import dev.onyxstudios.cca.api.v3.entity.PlayerComponent
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.registry.RegistryWrapper
-import net.minecraft.server.MinecraftServer
-import net.minecraft.util.Identifier
-import net.minecraft.world.PersistentState
-import net.minecraft.world.World
 
 
 class Mana: PlayerComponent<Mana>, AutoSyncedComponent {

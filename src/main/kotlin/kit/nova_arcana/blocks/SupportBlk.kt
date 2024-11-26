@@ -1,4 +1,4 @@
-package kit.nova_arcana
+package kit.nova_arcana.blocks
 
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks

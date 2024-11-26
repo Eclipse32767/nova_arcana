@@ -1,26 +1,16 @@
-package kit.nova_arcana
+package kit.nova_arcana.recipes
 
-import com.google.common.collect.Maps
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import com.google.gson.JsonSyntaxException
+import kit.nova_arcana.ModItems
+import kit.nova_arcana.Recipes
 import net.minecraft.inventory.RecipeInputInventory
 import net.minecraft.item.ItemStack
-import net.minecraft.network.PacketByteBuf
-import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RecipeSerializer
-import net.minecraft.recipe.ShapedRecipe
 import net.minecraft.recipe.SpecialCraftingRecipe
 import net.minecraft.recipe.book.CraftingRecipeCategory
 import net.minecraft.registry.DynamicRegistryManager
 import net.minecraft.util.Identifier
-import net.minecraft.util.JsonHelper
-import net.minecraft.util.collection.DefaultedList
 import net.minecraft.world.World
 import org.slf4j.LoggerFactory
-import kotlin.math.max
-import kotlin.math.min
-
 
 
 class WandCrafting(id: Identifier, category: CraftingRecipeCategory): SpecialCraftingRecipe(id, category) {

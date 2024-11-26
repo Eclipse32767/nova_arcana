@@ -49,6 +49,7 @@ object TemplateModClient : ClientModInitializer {
 		EntityRendererRegistry.register(ModEntities.DrainBeamType) { ctx -> FlyingItemEntityRenderer(ctx) }
 		EntityRendererRegistry.register(ModEntities.SiphonHealType) { ctx -> FlyingItemEntityRenderer(ctx) }
 		EntityRendererRegistry.register(ModEntities.ExcavateItemType) { ctx -> FlyingItemEntityRenderer(ctx) }
+		EntityRendererRegistry.register(ModEntities.PlacementType) { ctx -> FlyingItemEntityRenderer(ctx) }
 
 		ModelLoadingPlugin.register {ctx -> run {
 			val idStrs = listOf("item/wand-core-basic", "item/wand-claw-basic", "item/wand-orb-basic", "item/wand-gem-emerald", "item/mat-blank",

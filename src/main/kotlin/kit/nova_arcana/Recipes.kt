@@ -1,5 +1,6 @@
 package kit.nova_arcana
 
+import kit.nova_arcana.recipes.WandCrafting
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.recipe.RecipeType
 import net.minecraft.recipe.SpecialRecipeSerializer

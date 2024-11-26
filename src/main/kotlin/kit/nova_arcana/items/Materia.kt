@@ -1,9 +1,12 @@
-package kit.nova_arcana
+package kit.nova_arcana.items
 
+import kit.nova_arcana.ModItems
+import kit.nova_arcana.SpellMod
+import kit.nova_arcana.mkMod
+import kit.nova_arcana.spellReg
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.recipe.FireworkStarRecipe
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 

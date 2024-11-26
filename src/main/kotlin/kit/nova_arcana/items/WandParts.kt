@@ -1,4 +1,4 @@
-package kit.nova_arcana
+package kit.nova_arcana.items
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.client.item.TooltipContext

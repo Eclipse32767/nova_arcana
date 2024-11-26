@@ -3,15 +3,14 @@ package kit.nova_arcana
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer
-import dev.onyxstudios.cca.api.v3.entity.PlayerComponent
-import net.minecraft.entity.player.PlayerEntity
+import kit.nova_arcana.components.Mana
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 
 val ManaKey = ComponentRegistry.getOrCreate(Identifier("nova_arcana:mana"), Mana().javaClass)
 class Components: EntityComponentInitializer {
     override fun registerEntityComponentFactories(registry: EntityComponentFactoryRegistry) {
-        registry.registerForPlayers(ManaKey) {Mana()}
+        registry.registerForPlayers(ManaKey) { Mana() }
     }
 }
 

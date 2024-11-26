@@ -1,12 +1,14 @@
 package kit.nova_arcana
 
+import kit.nova_arcana.items.WandRank
+import kit.nova_arcana.items.mkMateria
+import kit.nova_arcana.items.mkModMateria
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroups
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.registry.RegistryKey
@@ -116,7 +118,7 @@ fun mkMainGrp() {
             entries.add(ItemStack(ModBlocks.STAFF_WORKBENCH, 1))
         }}.build()
     val matKey = RegistryKey.of(Registries.ITEM_GROUP.key, Identifier.of("nova_arcana", "spells"))
-    val grpMateria = FabricItemGroup.builder().icon {mkMateria("nova_arcana:spell/flame")}
+    val grpMateria = FabricItemGroup.builder().icon { mkMateria("nova_arcana:spell/flame") }
         .displayName(Text.translatable("itemGroup.nova_arcana.spells")).entries {_, entries -> run {
             entries.add(matStk("flame"))
             entries.add(matStk("siphon"))
@@ -124,6 +126,7 @@ fun mkMainGrp() {
             entries.add(matStk("support"))
             entries.add(matStk("dash"))
             entries.add(matStk("recovery"))
+            entries.add(matStk("substitute"))
             entries.add(mkModMateria(SpellMod.EFF, "nova_arcana:item/mat-eff"))
             entries.add(mkModMateria(SpellMod.PWR, "nova_arcana:item/mat-pwr"))
             entries.add(mkModMateria(SpellMod.AREA, "nova_arcana:item/mat-area"))

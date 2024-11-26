@@ -1,16 +1,16 @@
-package kit.nova_arcana
+package kit.nova_arcana.blocks
 
+import kit.nova_arcana.ImplementedInventory
+import kit.nova_arcana.ModItems
+import kit.nova_arcana.items.mkMateria
+import kit.nova_arcana.items.mkModMateria
+import kit.nova_arcana.mkMod
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.inventory.Inventories
-import net.minecraft.inventory.Inventory
-import net.minecraft.inventory.SimpleInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.*
-import net.minecraft.screen.slot.Slot
-import net.minecraft.stat.Stats
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -18,8 +18,6 @@ import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import org.apache.commons.logging.Log
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 private val SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 16.0)

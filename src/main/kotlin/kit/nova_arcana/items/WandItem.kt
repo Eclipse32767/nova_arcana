@@ -1,5 +1,6 @@
-package kit.nova_arcana
+package kit.nova_arcana.items
 
+import kit.nova_arcana.*
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.Entity
@@ -25,7 +26,11 @@ enum class WandRank(val num: Int) {
     AIRONLY(3),
     VOIDONLY(4),
     SPIRITONLY(5),
-    BASIC(6);
+    PRIMAL(6),
+    TIER1(11),
+    TIER2(21),
+    TIER3(31);
+
     fun canCast(req: WandRank): Boolean {
         if (this == CHEATER) return true
         if (req.num == num) return true

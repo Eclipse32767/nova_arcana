@@ -1,9 +1,9 @@
-package kit.nova_arcana
+package kit.nova_arcana.recipes
 
 import com.google.common.collect.Maps
 import com.google.common.collect.Sets
 import com.google.gson.*
-import net.minecraft.item.ItemStack
+import kit.nova_arcana.items.mkMateria
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RecipeSerializer
