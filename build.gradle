@@ -26,8 +26,16 @@ repositories {
 	maven {url = "https://maven.ladysnake.org/releases/"}
 	maven {url = "https://maven.terraformersmc.com/releases/"}
 	maven {url = "https://maven.jamieswhiteshirt.com/libs-release/"}
+	maven {
+		name = 'GeckoLib'
+		url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+		content {
+			includeGroupByRegex("software\\.bernie.*")
+			includeGroup("com.eliotlash.mclib")
+		}
+	}
 }
-
+/*
 loom {
 	splitEnvironmentSourceSets()
 
@@ -39,6 +47,7 @@ loom {
 	}
 
 }
+ */
 
 fabricApi {
 	configureDataGeneration()
@@ -56,6 +65,8 @@ dependencies {
 
 	//modImplementation "curse.maven:lodestone-616457:5707917"
 	modImplementation "team.lodestar.lodestone:lodestone:1.20.1-1.6.2.3-fabric"
+	modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:4.4.9"
+	implementation("com.eliotlash.mclib:mclib:20")
 	//modImplementation "curse.maven:modonomicon-538392:5786083"
 }
 

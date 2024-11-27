@@ -1,7 +1,9 @@
 package kit.nova_arcana
 
+import kit.nova_arcana.armor.MagicArmor
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.registry.Registry
 import net.minecraft.util.math.Vec3d
 import org.slf4j.LoggerFactory
@@ -27,8 +29,19 @@ object TemplateMod : ModInitializer {
 		ServerTickEvents.START_WORLD_TICK.register { wld ->
 			run {
 				tickcnt++
-				for (plr in wld.getPlayers({true})) {
+				for (plr in wld.getPlayers { true }) {
 					val h = ManaHandle(plr)
+					var manaBoost = 0
+					var regenBoost = 0
+					val armors = listOf(plr.inventory.getArmorStack(3), plr.inventory.getArmorStack(2), plr.inventory.getArmorStack(1), plr.inventory.getArmorStack(0))
+					for (armor in armors) {
+						val item = armor.item
+						if (item is MagicArmor) {
+							manaBoost += item.getManaCapBoost()
+							regenBoost += item.getManaRegenBoost()
+						}
+					}
+					h.manacap = 100 + manaBoost
 					if (h.mana > h.manacap) h.mana = h.manacap
 					h.castTimer--
 					if (h.castTimer < 0) h.castTimer = 0
@@ -36,7 +49,7 @@ object TemplateMod : ModInitializer {
 						val castPenalty = 1.0 - (h.castTimer.toDouble() / 100.0)
 						val spd = plr.pos.distanceTo(h.lastpos)
 						val mvPenalty = 1.0 - minOf(spd, 1.0)
-						var regen = 8.0
+						var regen = 8.0 + regenBoost
 						regen *= castPenalty
 						regen *= mvPenalty
 						h.lastRegen = regen.toInt()

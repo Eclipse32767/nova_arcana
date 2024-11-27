@@ -1,5 +1,8 @@
-package kit.nova_arcana
+package kit.nova_arcana.client
 
+import kit.nova_arcana.ModItems
+import kit.nova_arcana.mkMod
+import kit.nova_arcana.spellReg
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer
 import net.minecraft.client.MinecraftClient
@@ -48,9 +51,9 @@ fun regItemRenderers(logger: Logger) {
     BuiltinItemRendererRegistry.INSTANCE.register(ModItems.wandCore, partRender)
     BuiltinItemRendererRegistry.INSTANCE.register(ModItems.wandDecor, partRender)
     BuiltinItemRendererRegistry.INSTANCE.register(ModItems.wandGem, partRender)
-    BuiltinItemRendererRegistry.INSTANCE.register(ModItems.modMateria, MultiPartRender(logger, true) {stk, mode -> listOf(
+    BuiltinItemRendererRegistry.INSTANCE.register(ModItems.modMateria, MultiPartRender(logger, true) { stk, mode -> listOf(
         mkMod(stk.orCreateNbt.getInt("modifier")).model()
     )})
-    BuiltinItemRendererRegistry.INSTANCE.register(ModItems.materia, MultiPartRender(logger, true) {stk, mode -> listOf(
+    BuiltinItemRendererRegistry.INSTANCE.register(ModItems.materia, MultiPartRender(logger, true) { stk, mode -> listOf(
         spellReg[Identifier(stk.orCreateNbt.getString("spell"))]?.sprite.toString())})
 }

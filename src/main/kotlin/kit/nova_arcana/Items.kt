@@ -1,7 +1,12 @@
 package kit.nova_arcana
 
+import kit.nova_arcana.armor.CloakArmorItem
+import kit.nova_arcana.armor.CloakArmorMaterial
+import kit.nova_arcana.armor.EminenceArmorMaterial
+import kit.nova_arcana.armor.MagicArmor
 import kit.nova_arcana.items.*
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.minecraft.item.ArmorItem
 import net.minecraft.item.Item
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
@@ -46,4 +51,9 @@ object ModItems {
         val gemAmethyst = register("wand-gem-amethyst", SurrogateItem(Prefabs.GEM_AMETHYST))
         val gemQuartz = register("wand-gem-quartz", SurrogateItem(Prefabs.GEM_QUARTZ))
     }
+    val helm = register("cloak-helmet", CloakArmorItem(CloakArmorMaterial.INSTANCE, ArmorItem.Type.HELMET, FabricItemSettings().maxCount(1)))
+    val chest = register("cloak-chestplate", CloakArmorItem(CloakArmorMaterial.INSTANCE, ArmorItem.Type.CHESTPLATE, FabricItemSettings().maxCount(1)))
+    val legs = register("cloak-legs", CloakArmorItem(CloakArmorMaterial.INSTANCE, ArmorItem.Type.LEGGINGS, FabricItemSettings().maxCount(1)))
+    val boots = register("cloak-boots", CloakArmorItem(CloakArmorMaterial.INSTANCE, ArmorItem.Type.BOOTS, FabricItemSettings().maxCount(1)))
+    val godHelm = register("god-helmet", MagicArmor(EminenceArmorMaterial.INSTANCE, ArmorItem.Type.HELMET, FabricItemSettings().maxCount(1)))
 }

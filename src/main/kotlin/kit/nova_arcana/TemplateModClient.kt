@@ -1,40 +1,22 @@
 package kit.nova_arcana
 
-import kit.nova_arcana.TemplateModClient.logger
+import kit.nova_arcana.client.regItemRenderers
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
-import net.fabricmc.fabric.api.client.screen.v1.Screens
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
-import net.fabricmc.fabric.api.renderer.v1.RendererAccess
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.option.KeyBinding
-import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer
-import net.minecraft.client.render.item.BuiltinModelItemRenderer
-import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.InputUtil
-import net.minecraft.client.util.ModelIdentifier
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
-import net.minecraft.network.PacketByteBuf
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.ColorHelper
-import net.minecraft.util.math.Vec3d
-import org.joml.Vector3f
 import org.lwjgl.glfw.GLFW
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 
@@ -92,6 +74,8 @@ object TemplateModClient : ClientModInitializer {
 				val h = ManaHandle(plr)
 				val mana = h.mana
 				val manacap = h.manacap
+				val mana_scaled = mana * 100 / manacap
+				val renderpos_scaled = renderpos * 100 / manacap
 				//logger.atInfo().log("$mana, $lastpts")
 				/*
 				ctx.fill(0, 0, manacap, 5, ColorHelper.Argb.getArgb(255, 130, 130, 130))
@@ -99,8 +83,8 @@ object TemplateModClient : ClientModInitializer {
 				ctx.fill(0, 0, minOf(renderpos, mana), 5, ColorHelper.Argb.getArgb(255, 63, 230, 252))
 				 */
 				ctx.drawTexture(Identifier("nova_arcana:textures/gui/manabar-empty.png"), 0, 0, 100, 10, 0.0f, 0.0f, 100, 10, 100, 10)
-				ctx.drawTexture(Identifier("nova_arcana:textures/gui/manabar-filling.png"), 0, 0, maxOf(renderpos, mana), 10, 0.0f, 0.0f, maxOf(renderpos, mana), 10, 100, 10)
-				ctx.drawTexture(Identifier("nova_arcana:textures/gui/manabar-full.png"), 0, 0, minOf(renderpos, mana), 10, 0.0f, 0.0f, minOf(renderpos, mana), 10, 100, 10)
+				ctx.drawTexture(Identifier("nova_arcana:textures/gui/manabar-filling.png"), 0, 0, maxOf(renderpos_scaled, mana_scaled), 10, 0.0f, 0.0f, maxOf(renderpos_scaled, mana_scaled), 10, 100, 10)
+				ctx.drawTexture(Identifier("nova_arcana:textures/gui/manabar-full.png"), 0, 0, minOf(renderpos_scaled, mana_scaled), 10, 0.0f, 0.0f, minOf(renderpos_scaled, mana_scaled), 10, 100, 10)
 				val spellList = ModItems.wand.spellList(wand)
 				val nbt = wand.orCreateNbt
 				val spellnum = nbt.getInt("spell")

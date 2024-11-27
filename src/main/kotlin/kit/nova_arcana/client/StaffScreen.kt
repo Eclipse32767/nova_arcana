@@ -1,12 +1,5 @@
-package kit.nova_arcana
+package kit.nova_arcana.client
 
-import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.screen.ingame.HandledScreen
-import net.minecraft.client.render.GameRenderer
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 private val TEXTURE = Identifier("nova_arcana:textures/gui/staff_workbench")
