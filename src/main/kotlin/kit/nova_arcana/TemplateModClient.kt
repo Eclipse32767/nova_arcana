@@ -32,6 +32,7 @@ object TemplateModClient : ClientModInitializer {
 		EntityRendererRegistry.register(ModEntities.SiphonHealType) { ctx -> FlyingItemEntityRenderer(ctx) }
 		EntityRendererRegistry.register(ModEntities.ExcavateItemType) { ctx -> FlyingItemEntityRenderer(ctx) }
 		EntityRendererRegistry.register(ModEntities.PlacementType) { ctx -> FlyingItemEntityRenderer(ctx) }
+		EntityRendererRegistry.register(ModEntities.ImmolateType) { ctx -> FlyingItemEntityRenderer(ctx) }
 
 		ModelLoadingPlugin.register {ctx -> run {
 			val idStrs = listOf("item/wand-core-basic", "item/wand-claw-basic", "item/wand-orb-basic", "item/wand-gem-emerald", "item/mat-blank",
@@ -85,35 +86,70 @@ object TemplateModClient : ClientModInitializer {
 				ctx.drawTexture(Identifier("nova_arcana:textures/gui/manabar-empty.png"), 0, 0, 100, 10, 0.0f, 0.0f, 100, 10, 100, 10)
 				ctx.drawTexture(Identifier("nova_arcana:textures/gui/manabar-filling.png"), 0, 0, maxOf(renderpos_scaled, mana_scaled), 10, 0.0f, 0.0f, maxOf(renderpos_scaled, mana_scaled), 10, 100, 10)
 				ctx.drawTexture(Identifier("nova_arcana:textures/gui/manabar-full.png"), 0, 0, minOf(renderpos_scaled, mana_scaled), 10, 0.0f, 0.0f, minOf(renderpos_scaled, mana_scaled), 10, 100, 10)
-				val spellList = ModItems.wand.spellList(wand)
-				val nbt = wand.orCreateNbt
-				val spellnum = nbt.getInt("spell")
-				val selSpellname = spellReg[Identifier(spellList[spellnum])]?.name
-				val modName = try {"(${mkMod(nbt.getIntArray("mods")[spellnum]).pretty_name()})"} catch (_: IndexOutOfBoundsException) {""}
-				ctx.drawText(MinecraftClient.getInstance().textRenderer,
-					"${selSpellname?.string?:""} $modName", 11, 21, 0xFFFFFF, true)
-				val spellpkg = spellReg[Identifier(spellList[spellnum])]
-				if (spellpkg != null) {
-					ctx.drawTexture(Identifier(spellpkg.sprite.namespace, "textures/"+spellpkg.sprite.path+".png"), 0, 20, 10, 10, 0f, 0f, 16, 16, 16, 16 )
-				}
-				val nextSpell = if (spellnum >= spellList.lastIndex) 0 else spellnum + 1
-				val nextSpellname = spellReg[Identifier(spellList[nextSpell])]?.name
-				val nextModName = try {"(${mkMod(nbt.getIntArray("mods")[nextSpell]).pretty_name()})"} catch (_: IndexOutOfBoundsException) {""}
-				ctx.drawText(MinecraftClient.getInstance().textRenderer,
-					"${nextSpellname?.string?:""} $nextModName", 11, 31, 0xAAAAAA, true)
-				val nextSpellpkg = spellReg[Identifier(spellList[nextSpell])]
-				if (nextSpellpkg != null) {
-					ctx.drawTexture(Identifier(nextSpellpkg.sprite.namespace, "textures/"+nextSpellpkg.sprite.path+".png"), 0, 30, 10, 10, 0f, 0f, 16, 16, 16, 16 )
-				}
-				val prevSpell = if (spellnum <= 0) spellList.lastIndex else spellnum - 1
-				val prevSpellname = spellReg[Identifier(spellList[prevSpell])]?.name
-				val prevModName = try {"(${mkMod(nbt.getIntArray("mods")[prevSpell]).pretty_name()})"} catch (_: IndexOutOfBoundsException) {""}
-				ctx.drawText(MinecraftClient.getInstance().textRenderer,
-					"${prevSpellname?.string?:""} $prevModName", 11, 11, 0xAAAAAA, true)
-				val prevSpellpkg = spellReg[Identifier(spellList[prevSpell])]
-				if (prevSpellpkg != null) {
-					ctx.drawTexture(Identifier(prevSpellpkg.sprite.namespace, "textures/"+prevSpellpkg.sprite.path+".png"), 0, 10, 10, 10, 0f, 0f, 16, 16, 16, 16 )
-				}
+				try {
+					val spellList = ModItems.wand.spellList(wand)
+					val nbt = wand.orCreateNbt
+					val spellnum = nbt.getInt("spell")
+					val selSpellname = spellReg[Identifier(spellList[spellnum])]?.name
+					val modName = try {
+						"(${mkMod(nbt.getIntArray("mods")[spellnum]).pretty_name()})"
+					} catch (_: IndexOutOfBoundsException) {
+						""
+					}
+					ctx.drawText(
+						MinecraftClient.getInstance().textRenderer,
+						"${selSpellname?.string ?: ""} $modName", 11, 21, 0xFFFFFF, true
+					)
+					val spellpkg = spellReg[Identifier(spellList[spellnum])]
+					if (spellpkg != null) {
+						ctx.drawTexture(
+							Identifier(
+								spellpkg.sprite.namespace,
+								"textures/" + spellpkg.sprite.path + ".png"
+							), 0, 20, 10, 10, 0f, 0f, 16, 16, 16, 16
+						)
+					}
+					val nextSpell = if (spellnum >= spellList.lastIndex) 0 else spellnum + 1
+					val nextSpellname = spellReg[Identifier(spellList[nextSpell])]?.name
+					val nextModName = try {
+						"(${mkMod(nbt.getIntArray("mods")[nextSpell]).pretty_name()})"
+					} catch (_: IndexOutOfBoundsException) {
+						""
+					}
+					ctx.drawText(
+						MinecraftClient.getInstance().textRenderer,
+						"${nextSpellname?.string ?: ""} $nextModName", 11, 31, 0xAAAAAA, true
+					)
+					val nextSpellpkg = spellReg[Identifier(spellList[nextSpell])]
+					if (nextSpellpkg != null) {
+						ctx.drawTexture(
+							Identifier(
+								nextSpellpkg.sprite.namespace,
+								"textures/" + nextSpellpkg.sprite.path + ".png"
+							), 0, 30, 10, 10, 0f, 0f, 16, 16, 16, 16
+						)
+					}
+					val prevSpell = if (spellnum <= 0) spellList.lastIndex else spellnum - 1
+					val prevSpellname = spellReg[Identifier(spellList[prevSpell])]?.name
+					val prevModName = try {
+						"(${mkMod(nbt.getIntArray("mods")[prevSpell]).pretty_name()})"
+					} catch (_: IndexOutOfBoundsException) {
+						""
+					}
+					ctx.drawText(
+						MinecraftClient.getInstance().textRenderer,
+						"${prevSpellname?.string ?: ""} $prevModName", 11, 11, 0xAAAAAA, true
+					)
+					val prevSpellpkg = spellReg[Identifier(spellList[prevSpell])]
+					if (prevSpellpkg != null) {
+						ctx.drawTexture(
+							Identifier(
+								prevSpellpkg.sprite.namespace,
+								"textures/" + prevSpellpkg.sprite.path + ".png"
+							), 0, 10, 10, 10, 0f, 0f, 16, 16, 16, 16
+						)
+					}
+				} catch (_: Exception) {}
 				 //else logger.atInfo().log(spellList[spellnum])
 				//if (lastMana != mana) {
 				//	renderpos = lastMana

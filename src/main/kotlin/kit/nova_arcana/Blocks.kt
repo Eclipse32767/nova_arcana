@@ -1,5 +1,6 @@
 package kit.nova_arcana
 
+import kit.nova_arcana.blocks.RitualBlock
 import kit.nova_arcana.blocks.StaffWorkbench
 import kit.nova_arcana.blocks.SupportBlk
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
@@ -17,5 +18,7 @@ private fun<T: Block> register(path: String, item: T): T {
 object ModBlocks {
     val STAFF_WORKBENCH = register("staff-workbench", StaffWorkbench(FabricBlockSettings.copyOf(Blocks.OAK_PLANKS).nonOpaque()))
     val STAFF_WORKBENCH_ITEM = Registry.register(Registries.ITEM, "nova_arcana:staff-workbench", BlockItem(STAFF_WORKBENCH, FabricItemSettings()))
-    val SUPPORT_BLOCK = register("support-spellblock", SupportBlk(FabricBlockSettings.copyOf(Blocks.FROSTED_ICE)))
+    val SUPPORT_BLOCK = register("support-spellblock", SupportBlk(FabricBlockSettings.copyOf(Blocks.FROSTED_ICE).nonOpaque()))
+    val RITUALBLOCK = register("rit-block", RitualBlock(FabricBlockSettings.create()))
+    val RITUALBLOCK_ITEM = Registry.register(Registries.ITEM, "nova_arcana:rit-block", BlockItem(RITUALBLOCK, FabricItemSettings()))
 }

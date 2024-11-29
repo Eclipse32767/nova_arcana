@@ -33,4 +33,8 @@ object ModEntities {
                 EntityDimensions(0.5f, 0.5f, true)
             )
             .trackRangeBlocks(80).trackedUpdateRate(10).build())
+    val ImmolateType = Registry.register(Registries.ENTITY_TYPE, Identifier("nova_arcana:immolate"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MISC) { type, world -> ImmolateProj(type, world) }.dimensions(
+            EntityDimensions(0.5F, 0.5F, true)
+        ).trackRangeBlocks(80).trackedUpdateRate(80).build())
 }

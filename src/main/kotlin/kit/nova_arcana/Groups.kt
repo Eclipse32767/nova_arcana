@@ -116,6 +116,7 @@ fun mkMainGrp() {
     val grpBlks = FabricItemGroup.builder().icon {ModBlocks.STAFF_WORKBENCH.asItem().defaultStack}
         .displayName(Text.translatable("itemGroup.nova_arcana.blocks")).entries {_, entries -> run {
             entries.add(ItemStack(ModBlocks.STAFF_WORKBENCH, 1))
+            entries.add(ModBlocks.RITUALBLOCK)
         }}.build()
     val matKey = RegistryKey.of(Registries.ITEM_GROUP.key, Identifier.of("nova_arcana", "spells"))
     val grpMateria = FabricItemGroup.builder().icon { mkMateria("nova_arcana:spell/flame") }
@@ -127,6 +128,9 @@ fun mkMainGrp() {
             entries.add(matStk("dash"))
             entries.add(matStk("recovery"))
             entries.add(matStk("substitute"))
+            entries.add(matStk("immolate"))
+            entries.add(matStk("malevolence"))
+            entries.add(matStk("overclock"))
             entries.add(mkModMateria(SpellMod.EFF, "nova_arcana:item/mat-eff"))
             entries.add(mkModMateria(SpellMod.PWR, "nova_arcana:item/mat-pwr"))
             entries.add(mkModMateria(SpellMod.AREA, "nova_arcana:item/mat-area"))

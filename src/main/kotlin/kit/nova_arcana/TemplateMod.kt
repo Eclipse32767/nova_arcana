@@ -23,6 +23,8 @@ object TemplateMod : ModInitializer {
 		val entities = ModEntities
 		val recipes = Recipes
 		val blks = ModBlocks
+		val blkEntities = ModBlockEntities
+		val effects = ModEffects
 		mkMainGrp()
 		regSpells()
 		var tickcnt = 0;
