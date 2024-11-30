@@ -1,5 +1,6 @@
 package kit.nova_arcana
 
+import kit.nova_arcana.blocks.PedestalRenderer
 import kit.nova_arcana.client.regItemRenderers
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
@@ -11,6 +12,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
+import net.minecraft.client.render.block.entity.BlockEntityRenderer
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer
 import net.minecraft.client.util.InputUtil
 import net.minecraft.sound.SoundCategory
@@ -46,6 +49,7 @@ object TemplateModClient : ClientModInitializer {
 		logger.atInfo().log("Registering wand renderer...")
 		regItemRenderers(logger)
 		logger.atInfo().log("Registered wand renderer!")
+		BlockEntityRendererFactories.register(ModBlockEntities.PEDESTAL_TYPE) { PedestalRenderer(it) }
 		val swapSpell = KeyBindingHelper.registerKeyBinding(KeyBinding("key.nova_arcana.swap_spell", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, "category.nova_arcana.spellcasting"))
 		ClientTickEvents.END_CLIENT_TICK.register { client ->
 			run {

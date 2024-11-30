@@ -17,6 +17,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import org.slf4j.LoggerFactory
 
@@ -98,8 +99,8 @@ class StaffScrInv(val wand: ItemStack, inv: List<ItemStack>): ImplementedInvento
         }
         return@run list
     }
-    override val items: DefaultedList<ItemStack?>
-        get() = storage
+
+    override fun getItems() = storage
     override fun onClose(player: PlayerEntity) {
         super.onClose(player)
         val spells: MutableList<String> = mutableListOf()
@@ -128,6 +129,11 @@ class StaffScrInv(val wand: ItemStack, inv: List<ItemStack>): ImplementedInvento
         wand.orCreateNbt.putIntArray("mods", mods)
         player.giveItemStack(wand)
     }
+
+    override fun canInsert(slot: Int, stack: ItemStack?, side: Direction?): Boolean {
+        if (stack != null) return isValid(slot, stack) else return false
+    }
+
     override fun isValid(slot: Int, stack: ItemStack): Boolean {
         val nbt = wand.orCreateNbt
         logger.atInfo().log("${stack.item}")

@@ -4,6 +4,7 @@ import kit.nova_arcana.ModBlockEntities
 import kit.nova_arcana.ModEffects
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
+import net.minecraft.block.BlockEntityProvider
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
@@ -18,7 +19,7 @@ import net.minecraft.util.math.Box
 import net.minecraft.world.World
 
 
-class RitualBlock(settings: FabricBlockSettings) : BlockWithEntity(settings) {
+class RitualBlock(settings: FabricBlockSettings) : BlockWithEntity(settings), BlockEntityProvider {
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
         return RitualBlockEntity(pos, state)
     }

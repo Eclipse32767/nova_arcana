@@ -1,5 +1,6 @@
 package kit.nova_arcana
 
+import kit.nova_arcana.blocks.Pedestal
 import kit.nova_arcana.blocks.RitualBlock
 import kit.nova_arcana.blocks.StaffWorkbench
 import kit.nova_arcana.blocks.SupportBlk
@@ -21,4 +22,6 @@ object ModBlocks {
     val SUPPORT_BLOCK = register("support-spellblock", SupportBlk(FabricBlockSettings.copyOf(Blocks.FROSTED_ICE).nonOpaque()))
     val RITUALBLOCK = register("rit-block", RitualBlock(FabricBlockSettings.create()))
     val RITUALBLOCK_ITEM = Registry.register(Registries.ITEM, "nova_arcana:rit-block", BlockItem(RITUALBLOCK, FabricItemSettings()))
+    val PEDESTAL = register("pedestal", Pedestal(FabricBlockSettings.create().nonOpaque()))
+    val PEDESTAL_ITEM = Registry.register(Registries.ITEM, "nova_arcana:pedestal", BlockItem(PEDESTAL, FabricItemSettings()))
 }
