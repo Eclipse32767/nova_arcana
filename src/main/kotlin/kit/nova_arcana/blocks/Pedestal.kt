@@ -69,12 +69,12 @@ class Pedestal(settings: Settings) : BlockWithEntity(settings), BlockEntityProvi
     }
 }
 class PedestalEntity(pos: BlockPos, state: BlockState) : BlockEntity(ModBlockEntities.PEDESTAL_TYPE, pos, state), SingleStackInventory {
-    val inv = DefaultedList.ofSize<ItemStack>(1, ItemStack.EMPTY)
+    var inv = ItemStack.EMPTY
 
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
         if (nbt.contains("item")) {
-            inv[0] = ItemStack.fromNbt(nbt.getCompound("item"))
+            inv = ItemStack.fromNbt(nbt.getCompound("item"))
         }
     }
 
@@ -85,21 +85,32 @@ class PedestalEntity(pos: BlockPos, state: BlockState) : BlockEntity(ModBlockEnt
 
     override fun writeNbt(nbt: NbtCompound) {
         super.writeNbt(nbt)
-        nbt.put("item", inv[0].writeNbt(NbtCompound()))
+        nbt.put("item", inv.writeNbt(NbtCompound()))
     }
     override fun getStack(slot: Int): ItemStack {
-        return inv[0]
+        return inv
+    }
+    override fun getStack(): ItemStack {
+        return inv
     }
 
     override fun removeStack(slot: Int, amount: Int): ItemStack {
-        val itm = inv[0].copyAndEmpty()
+        val itm = inv.copyAndEmpty()
         markDirty()
         return itm
     }
 
+    override fun removeStack(amount: Int): ItemStack {
+        return removeStack(0, amount)
+    }
+
     override fun setStack(slot: Int, stack: ItemStack) {
-        inv[0] = stack
+        inv = stack
         markDirty()
+    }
+
+    override fun setStack(stack: ItemStack) {
+        setStack(0, stack)
     }
 
     override fun canPlayerUse(player: PlayerEntity): Boolean {

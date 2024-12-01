@@ -1,0 +1,36 @@
+{
+  "type": "nova_arcana:infusion",
+  "inputs": [
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "minecraft:gold_block"
+    }
+  ],
+  "central": {
+    "item": "minecraft:golden_apple"
+  },
+  "out": "minecraft:enchanted_golden_apple",
+  "outCount": 1,
+  "outData": {
+  }
+}
