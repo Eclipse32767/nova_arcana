@@ -120,6 +120,12 @@ fun mkMainGrp() {
             entries.add(ModBlocks.PEDESTAL)
             entries.add(ModBlocks.DECONSTRUCTOR)
             entries.add(ModBlocks.INFUSION_STONE)
+            entries.add(ModBlocks.MANA_VESSEL_ICE)
+            entries.add(ModBlocks.MANA_VESSEL_FIRE)
+            entries.add(ModBlocks.MANA_VESSEL_EARTH)
+            entries.add(ModBlocks.MANA_VESSEL_WIND)
+            entries.add(ModBlocks.MANA_VESSEL_SPIRIT)
+            entries.add(ModBlocks.MANA_VESSEL_VOID)
         }}.build()
     val matKey = RegistryKey.of(Registries.ITEM_GROUP.key, Identifier.of("nova_arcana", "spells"))
     val grpMateria = FabricItemGroup.builder().icon { mkMateria("nova_arcana:spell/flame") }

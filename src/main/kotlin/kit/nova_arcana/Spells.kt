@@ -185,6 +185,7 @@ fun regSpells() {
         if (user.getStatusEffect(ModEffects.FAIR_GROUND) != null) return@run SpellCastResult.FAIL
         user.addStatusEffect(StatusEffectInstance(ModEffects.OVERCLOCKED, 300, 1))
         user.addStatusEffect(StatusEffectInstance(ModEffects.FAIR_GROUND, 1200, 0))
+        for (i in 0..20) recoverParticle(0.1f, 0.0f).spawnLine(world, user.pos, user.pos.add(10.0, 0.0, 0.0))
         return@run SpellCastResult.SUCCESS
     }}
 }

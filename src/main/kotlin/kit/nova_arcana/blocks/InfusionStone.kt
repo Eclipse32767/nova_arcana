@@ -5,7 +5,9 @@ import kit.nova_arcana.ModBlockEntities
 import kit.nova_arcana.ModEntities
 import kit.nova_arcana.Recipes
 import kit.nova_arcana.entities.InfusionParticleLine
+import kit.nova_arcana.entities.ManaBeam
 import kit.nova_arcana.recipes.InfusionRecipe
+import kit.nova_arcana.recipes.ManaOutputs
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage
@@ -75,12 +77,13 @@ class InfusionStone(settings: FabricBlockSettings): BlockWithEntity(settings), B
 }
 
 class InfusionStoneEntity(pos: BlockPos, state: BlockState) : BlockEntity(ModBlockEntities.INFUSION_STONE_TYPE, pos, state) {
-    class RecipeHandle(val central: Ingredient, val inputs: MutableList<Ingredient>, val output: ItemStack)
+    class RecipeHandle(val central: Ingredient, val inputs: MutableList<Ingredient>, val output: ItemStack, val manaIn: MutableList<Pair<ManaFilter, Int>>)
     fun handleFrom(r: InfusionRecipe): RecipeHandle {
-        return RecipeHandle(r.central, r.inputs.toMutableList(), r.output.copy())
+        return RecipeHandle(r.central, r.inputs.toMutableList(), r.output.copy(), r.manaIn.pairList().toMutableList())
     }
     var checksLeft = 0
     var targetRecipe: RecipeHandle? = null
+    var takenPedestals = mutableListOf<BlockPos>()
     var tickCount = 0
     fun tick(world: World, pos: BlockPos, state: BlockState) {
         val logger = LoggerFactory.getLogger("pedestal_crafting")
@@ -96,6 +99,11 @@ class InfusionStoneEntity(pos: BlockPos, state: BlockState) : BlockEntity(ModBlo
                     if (!pedestal.stack.isEmpty) reagents += pedestal
                 }
             }
+        }
+        val manaPool = mutableListOf<ManaVesselEntity>()
+        for (x in -10..10) for (y in -3..3) for (z in -10..10) {
+            val vessel = world.getBlockEntity(BlockPos(pos.x + x, pos.y + y, pos.z + z))
+            if (vessel is ManaVesselEntity) manaPool += vessel
         }
         if (central !is PedestalEntity) return
         if (checksLeft > 0 && targetRecipe == null) {
@@ -113,7 +121,7 @@ class InfusionStoneEntity(pos: BlockPos, state: BlockState) : BlockEntity(ModBlo
         }
         if (targetRecipe != null && tickCount % 20 == 0) {
             val targetRecipe = targetRecipe!!
-            if (targetRecipe.inputs.isEmpty()) {
+            if (targetRecipe.inputs.isEmpty() && targetRecipe.manaIn.isEmpty()) {
                 central.inv.decrement(1)
                 central.markDirty()
                 if (central.inv.isEmpty) {
@@ -127,23 +135,61 @@ class InfusionStoneEntity(pos: BlockPos, state: BlockState) : BlockEntity(ModBlo
                     world.spawnEntity(out)
                 }
                 this.targetRecipe = null
+                this.takenPedestals = mutableListOf()
                 checksLeft = 0
             } else {
-                for (stk in reagents) {
+                if (targetRecipe.manaIn.isEmpty()) for (stk in reagents) {
+                    if (takenPedestals.filter { it.x == stk.pos.x && it.y == stk.pos.y && it.z == stk.pos.z }.isNotEmpty()) continue
                     if (targetRecipe.inputs[0].test(stk.inv)) {
                         consumePedestal(stk, world)
                         break
                     }
+                } else {
+                    val neededT = targetRecipe.manaIn[0].first
+                    var neededV = targetRecipe.manaIn[0].second
+                    for (pool in manaPool) {
+                        val amtTaken = pool.sub(neededT, neededV)
+                        neededV -= amtTaken
+                        pool.markDirty()
+                        if (amtTaken > 0) {
+                            val line = ManaBeam(ModEntities.ManaBeamType, world)
+                            line.color1 = neededT.a
+                            line.color2 = neededT.b
+                            line.startScale = 0.20f
+                            line.dest = pos.toCenterPos()
+                            line.setPosition(pool.pos.toCenterPos())
+                            line.setNoGravity(true)
+                            //line.mvTowardTrgt()
+                            world.spawnEntity(line)
+                            val line2 = ManaBeam(ModEntities.ManaBeamType, world)
+                            line2.color1 = neededT.a
+                            line2.color2 = neededT.b
+                            line2.startScale = 0.20f
+                            line2.dest = pos.toCenterPos()
+                            line2.setPosition(pos.toCenterPos().add(0.0, -1.5, 0.0))
+                            line2.setNoGravity(true)
+                            world.spawnEntity(line2)
+                        }
+                    }
+                    targetRecipe.manaIn[0] = Pair(neededT, neededV)
+                    if (neededV <= 0) this.targetRecipe!!.manaIn.removeAt(0)
+                    if (neededV > 0) logger.atInfo().log("insufficient mana")
                 }
             }
         }
     }
     fun consumePedestal(stk: PedestalEntity, world: World) {
+        val takenItem = stk.inv.item
         stk.inv.decrement(1)
         stk.markDirty()
+        takenPedestals += stk.pos
         this.targetRecipe!!.inputs.removeAt(0)
-        val line = InfusionParticleLine(ModEntities.InfusionParticleType, world, Color.CYAN, Color.BLUE, pos.toCenterPos().add(0.0, -1.0, 0.0))
+        val line = InfusionParticleLine(ModEntities.InfusionParticleType, world, pos.toCenterPos().add(0.0, -1.0, 0.0))
+        line.color1 = Color.CYAN
+        line.color2 = Color.BLUE
+        line.startScale = 0.30f
         line.setPosition(stk.pos.toCenterPos().add(0.0, 1.0, 0.0))
+        line.setItem(takenItem.defaultStack)
         line.setNoGravity(true)
         line.mvTowardTrgt()
         world.spawnEntity(line)

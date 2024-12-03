@@ -1,8 +1,6 @@
 package kit.nova_arcana
 
-import kit.nova_arcana.recipes.InfusionSer
-import kit.nova_arcana.recipes.InfusionType
-import kit.nova_arcana.recipes.WandCrafting
+import kit.nova_arcana.recipes.*
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.recipe.RecipeType
 import net.minecraft.recipe.SpecialRecipeSerializer
@@ -23,4 +21,6 @@ object Recipes {
     //val matRecipe = Registry.register(Registries.RECIPE_TYPE, "nova_arcana:crafting_mat_shaped", object : RecipeType<MatCrafting> {})
     val InfusionSerializer = RecipeSerializer.register("nova_arcana:infusion", InfusionSer)
     val INFUSION = Registry.register(Registries.RECIPE_TYPE, Identifier("nova_arcana:infusion"), InfusionType)
+    val DeconstructorSerializer = RecipeSerializer.register("nova_arcana:deconstruction", DeconstructorRecipeSer)
+    val DECONSTRUCTION = Registry.register(Registries.RECIPE_TYPE, Identifier("nova_arcana:deconstruction"), DeconstructorRecipeType)
 }

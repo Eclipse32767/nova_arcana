@@ -40,7 +40,12 @@ object ModEntities {
             EntityDimensions(0.5F, 0.5F, true)
         ).trackRangeBlocks(80).trackedUpdateRate(80).build())
     val InfusionParticleType = Registry.register(Registries.ENTITY_TYPE, Identifier("nova_arcana:infusion_particle_spawner"),
-        FabricEntityTypeBuilder.create(SpawnGroup.MISC) { type, world -> InfusionParticleLine(type, world, Color.CYAN, Color.CYAN, Vec3d.ZERO)}.dimensions(
+        FabricEntityTypeBuilder.create(SpawnGroup.MISC) { type, world -> InfusionParticleLine(type, world, Vec3d.ZERO)}.dimensions(
+            EntityDimensions(0.5f, 0.5f, true)
+        ).trackRangeBlocks(80).trackedUpdateRate(80).build()
+    )
+    val ManaBeamType = Registry.register(Registries.ENTITY_TYPE, Identifier("nova_arcana:mana_beam"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MISC) { type, world -> ManaBeam(type, world)}.dimensions(
             EntityDimensions(0.5f, 0.5f, true)
         ).trackRangeBlocks(80).trackedUpdateRate(80).build()
     )

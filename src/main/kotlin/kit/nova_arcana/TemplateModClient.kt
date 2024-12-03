@@ -37,6 +37,7 @@ object TemplateModClient : ClientModInitializer {
 		EntityRendererRegistry.register(ModEntities.PlacementType) { ctx -> FlyingItemEntityRenderer(ctx) }
 		EntityRendererRegistry.register(ModEntities.ImmolateType) { ctx -> FlyingItemEntityRenderer(ctx) }
 		EntityRendererRegistry.register(ModEntities.InfusionParticleType) {FlyingItemEntityRenderer(it)}
+		EntityRendererRegistry.register(ModEntities.ManaBeamType) {FlyingItemEntityRenderer(it)}
 
 		ModelLoadingPlugin.register {ctx -> run {
 			val idStrs = listOf("item/wand-core-basic", "item/wand-claw-basic", "item/wand-orb-basic", "item/wand-gem-emerald", "item/mat-blank",

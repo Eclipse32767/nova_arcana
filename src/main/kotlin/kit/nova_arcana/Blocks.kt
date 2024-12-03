@@ -25,4 +25,10 @@ object ModBlocks {
     val PEDESTAL = register("pedestal", Pedestal(FabricBlockSettings.create().nonOpaque()), FabricItemSettings())
     val DECONSTRUCTOR = register("deconstructor", Deconstructor(FabricBlockSettings.create().nonOpaque()), FabricItemSettings())
     val INFUSION_STONE = register("infusion-stone", InfusionStone(FabricBlockSettings.create().nonOpaque()), FabricItemSettings())
+    val MANA_VESSEL_FIRE = register("mana-vessel-fire", ManaVessel(FabricBlockSettings.create().nonOpaque(), ManaFilter.FIRE), FabricItemSettings())
+    val MANA_VESSEL_ICE = register("mana-vessel-ice", ManaVessel(FabricBlockSettings.create().nonOpaque(), ManaFilter.ICE), FabricItemSettings())
+    val MANA_VESSEL_EARTH = register("mana-vessel-earth", ManaVessel(FabricBlockSettings.create().nonOpaque(), ManaFilter.EARTH), FabricItemSettings())
+    val MANA_VESSEL_WIND = register("mana-vessel-wind", ManaVessel(FabricBlockSettings.create().nonOpaque(), ManaFilter.WIND), FabricItemSettings())
+    val MANA_VESSEL_SPIRIT = register("mana-vessel-spirit", ManaVessel(FabricBlockSettings.create().nonOpaque(), ManaFilter.SPIRIT), FabricItemSettings())
+    val MANA_VESSEL_VOID = register("mana-vessel-void", ManaVessel(FabricBlockSettings.create().nonOpaque(), ManaFilter.VOID), FabricItemSettings())
 }

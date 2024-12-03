@@ -1,13 +1,11 @@
 package kit.nova_arcana
 
-import kit.nova_arcana.blocks.RitualBlockEntity
+import kit.nova_arcana.blocks.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
-import kit.nova_arcana.blocks.InfusionStoneEntity
-import kit.nova_arcana.blocks.PedestalEntity
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 
 private fun<T: BlockEntity> register(path: String, type: BlockEntityType<T>): BlockEntityType<T> {
@@ -18,4 +16,12 @@ object ModBlockEntities {
     val RITUAL_TYPE = register("rit-block", FabricBlockEntityTypeBuilder.create({a, b -> RitualBlockEntity(a, b)}, ModBlocks.RITUALBLOCK).build(null))
     val PEDESTAL_TYPE = register("pedestal", FabricBlockEntityTypeBuilder.create({a, b -> PedestalEntity(a, b)}, ModBlocks.PEDESTAL).build(null))
     val INFUSION_STONE_TYPE = register("infusion-stone", FabricBlockEntityTypeBuilder.create({a, b -> InfusionStoneEntity(a, b)}, ModBlocks.INFUSION_STONE).build(null))
+    val MANA_VESSEL_TYPE = register("mana-vessel", FabricBlockEntityTypeBuilder.create({a, b -> ManaVesselEntity(a, b, ManaFilter.ICE)},
+        ModBlocks.MANA_VESSEL_ICE,
+        ModBlocks.MANA_VESSEL_FIRE,
+        ModBlocks.MANA_VESSEL_EARTH,
+        ModBlocks.MANA_VESSEL_WIND,
+        ModBlocks.MANA_VESSEL_SPIRIT,
+        ModBlocks.MANA_VESSEL_VOID).build(null))
+
 }

@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.world.World
 import org.slf4j.LoggerFactory
 
-class InfusionRecipe(val output: ItemStack, val central: Ingredient, val inputs: List<Ingredient>): Recipe<InfusionPedestals> {
+class InfusionRecipe(val output: ItemStack, val central: Ingredient, val inputs: List<Ingredient>, val manaIn: ManaOutputs): Recipe<InfusionPedestals> {
 
     override fun matches(inventory: InfusionPedestals, world: World): Boolean {
         val logger = LoggerFactory.getLogger("pedestal_crafting")
@@ -35,7 +35,7 @@ class InfusionRecipe(val output: ItemStack, val central: Ingredient, val inputs:
             //logger.atInfo().log( "${ingredient.toJson().toString()}, ${nums[ingredient]}")
         }
         for (ingredient in nums) {
-            logger.atInfo().log("${ingredient.key}, ${ingredient.value.c}")
+            //logger.atInfo().log("${ingredient.key}, ${ingredient.value.c}")
             var count = 0
             for ((i, stack) in inventory.items.withIndex()) {
                 if (ingredient.value.i.test(stack)) count++
@@ -75,6 +75,7 @@ object InfusionSer: RecipeSerializer<InfusionRecipe> {
     class JsonFormat(
         val inputs: MutableList<JsonObject>,
         val central: JsonObject,
+        val manaInputs: JsonObject,
         val out: String,
         val outCount: Int,
         val outData: JsonObject
@@ -85,6 +86,7 @@ object InfusionSer: RecipeSerializer<InfusionRecipe> {
         val central = Ingredient.fromJson(fmt.central)
         val outItm = Registries.ITEM.getOrEmpty(Identifier(fmt.out)).get()
         val outStk = ItemStack(outItm, fmt.outCount)
+        val manaIn: ManaOutputs = Gson().fromJson(fmt.manaInputs, ManaOutputs::class.java)
         for (v in fmt.outData.asMap()) {
             try {
                 outStk.orCreateNbt.putInt(v.key, v.value.asInt)
@@ -99,7 +101,7 @@ object InfusionSer: RecipeSerializer<InfusionRecipe> {
                 continue
             } catch (_: Exception) {}
         }
-        return InfusionRecipe(outStk, central, ingredients)
+        return InfusionRecipe(outStk, central, ingredients, manaIn)
     }
     override fun read(id: Identifier, buf: PacketByteBuf): InfusionRecipe {
         val output = buf.readItemStack()
@@ -109,7 +111,8 @@ object InfusionSer: RecipeSerializer<InfusionRecipe> {
         for (i in 0..terminator) {
             inputs += Ingredient.fromPacket(buf)
         }
-        return InfusionRecipe(output, central, inputs)
+        val manaIn = ManaOutputs.readBuf(buf)
+        return InfusionRecipe(output, central, inputs, manaIn)
     }
 
     override fun write(buf: PacketByteBuf, recipe: InfusionRecipe) {
@@ -119,5 +122,6 @@ object InfusionSer: RecipeSerializer<InfusionRecipe> {
         for (item in recipe.inputs) {
             item.write(buf)
         }
+        recipe.manaIn.writeBuf(buf)
     }
 }

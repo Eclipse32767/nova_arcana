@@ -29,6 +29,14 @@
   "central": {
     "item": "minecraft:golden_apple"
   },
+  "manaInputs": {
+    "fire": 40,
+    "ice": 40,
+    "earth": 40,
+    "wind": 40,
+    "spirit": 40,
+    "nil": 40
+  },
   "out": "minecraft:enchanted_golden_apple",
   "outCount": 1,
   "outData": {
