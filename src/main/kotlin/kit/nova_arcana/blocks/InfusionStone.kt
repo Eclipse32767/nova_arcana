@@ -100,11 +100,13 @@ class InfusionStoneEntity(pos: BlockPos, state: BlockState) : BlockEntity(ModBlo
                 }
             }
         }
+        reagents.shuffle()
         val manaPool = mutableListOf<ManaVesselEntity>()
         for (x in -10..10) for (y in -3..3) for (z in -10..10) {
             val vessel = world.getBlockEntity(BlockPos(pos.x + x, pos.y + y, pos.z + z))
             if (vessel is ManaVesselEntity) manaPool += vessel
         }
+        //manaPool.shuffle()
         if (central !is PedestalEntity) return
         if (checksLeft > 0 && targetRecipe == null) {
             //logger.atInfo().log("$tickCount: $checksLeft checks remaining")
@@ -112,6 +114,8 @@ class InfusionStoneEntity(pos: BlockPos, state: BlockState) : BlockEntity(ModBlo
             recipe.ifPresent {
                 //logger.atInfo().log("got the recipe boss")
                 targetRecipe = handleFrom(it)
+                targetRecipe!!.manaIn.shuffle()
+                targetRecipe!!.inputs.shuffle()
             }
         }
         tickCount++
@@ -166,7 +170,7 @@ class InfusionStoneEntity(pos: BlockPos, state: BlockState) : BlockEntity(ModBlo
                             line2.color2 = neededT.b
                             line2.startScale = 0.20f
                             line2.dest = pos.toCenterPos()
-                            line2.setPosition(pos.toCenterPos().add(0.0, -1.5, 0.0))
+                            line2.setPosition(pos.toCenterPos().add(0.0, -1.25, 0.0))
                             line2.setNoGravity(true)
                             world.spawnEntity(line2)
                         }

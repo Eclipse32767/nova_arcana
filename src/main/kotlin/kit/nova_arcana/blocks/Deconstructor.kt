@@ -60,9 +60,8 @@ class Deconstructor(settings: FabricBlockSettings): Block(settings) {
         val recipe = world.recipeManager.getFirstMatch(Recipes.DECONSTRUCTION, pedestal, world).getOrNull()
             ?: //logger.atInfo().log("recipe is null")
             return
-        pedestal.inv.decrement(1)
-        pedestal.markDirty()
         //logger.atInfo().log("pedestal above holding ${pedestal.stack.item}")
+        var successful = 0
         for (pair in recipe.output.pairList()) {
             //logger.atInfo().log("distributing ${pair.second} ${pair.first} mana")
             var v = pair.second + 0
@@ -80,13 +79,18 @@ class Deconstructor(settings: FabricBlockSettings): Block(settings) {
                         bolt.setNoGravity(true)
                         bolt.color1 = pair.first.a
                         bolt.color2 = pair.first.b
-                        bolt.startScale = 0.25f
+                        bolt.startScale = 0.20f
                         world.spawnEntity(bolt)
+                        successful++
                         //logger.atInfo().log("spawning wisp")
                     }
                     entity.markDirty()
                 }
             }
+        }
+        if (successful != 0) {
+            pedestal.inv.decrement(1)
+            pedestal.markDirty()
         }
     }
 }

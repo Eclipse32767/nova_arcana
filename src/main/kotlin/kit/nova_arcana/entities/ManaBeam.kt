@@ -21,6 +21,9 @@ private val START_SCALE = DataTracker.registerData(ManaBeam::class.java, Tracked
 private val COLOR1 = DataTracker.registerData(ManaBeam::class.java, TrackedDataHandlerRegistry.INTEGER)
 private val COLOR2 = DataTracker.registerData(ManaBeam::class.java, TrackedDataHandlerRegistry.INTEGER)
 private val DEST = DataTracker.registerData(ManaBeam::class.java, TrackedDataHandlerRegistry.VECTOR3F)
+private val PARTICLE_LIFESPAN = DataTracker.registerData(ManaBeam::class.java, TrackedDataHandlerRegistry.INTEGER)
+private val EFFECT_LIFESPAN = DataTracker.registerData(ManaBeam::class.java, TrackedDataHandlerRegistry.INTEGER)
+private val DENSITY = DataTracker.registerData(ManaBeam::class.java, TrackedDataHandlerRegistry.INTEGER)
 private val logger = LoggerFactory.getLogger("help")
 
 class ManaBeam(type: EntityType<ManaBeam>, world: World): ThrownItemEntity(type, world) {
@@ -39,13 +42,21 @@ class ManaBeam(type: EntityType<ManaBeam>, world: World): ThrownItemEntity(type,
             return Vec3d(ret.x.toDouble(), ret.y.toDouble(), ret.z.toDouble())
         }
         set(value) = dataTracker.set(DEST, Vector3f(value.x.toFloat(), value.y.toFloat(), value.z.toFloat()))
-    var lifespan = 20
+    var particleLifespan: Int
+        get() = dataTracker.get(PARTICLE_LIFESPAN)
+        set(value) = dataTracker.set(PARTICLE_LIFESPAN, value)
+    var lifespan: Int
+        get() = dataTracker.get(EFFECT_LIFESPAN)
+        set(value) = dataTracker.set(EFFECT_LIFESPAN, value)
+    var density: Int
+        get() = dataTracker.get(DENSITY)
+        set(value) = dataTracker.set(DENSITY, value)
     fun particleSpawner(): WorldParticleBuilder {
         val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
         spawner.scaleData = GenericParticleData.create(startScale, 0.0f).build()
         spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
         spawner.colorData = ColorParticleData.create(color1, color2).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-        spawner.setLifetime(40)
+        spawner.setLifetime(particleLifespan)
         spawner.enableNoClip()
         return spawner
     }
@@ -58,7 +69,7 @@ class ManaBeam(type: EntityType<ManaBeam>, world: World): ThrownItemEntity(type,
         //mvTowardTrgt()
         //val logger = LoggerFactory.getLogger("hhhh")
         //logger.atInfo().log("${velocity.x}, ${velocity.y}, ${velocity.z}")
-        for (i in 0..5) particleSpawner().spawnLine(world, pos, dest)
+        for (i in 0..density) particleSpawner().spawnLine(world, pos, dest)
         if (world.isClient) return
         lifespan--
         if (lifespan < 0) kill()
@@ -70,5 +81,8 @@ class ManaBeam(type: EntityType<ManaBeam>, world: World): ThrownItemEntity(type,
         dataTracker.startTracking(COLOR1, Color.WHITE.rgb)
         dataTracker.startTracking(COLOR2, Color.WHITE.rgb)
         dataTracker.startTracking(DEST, Vector3f(0f, 0f, 0f))
+        dataTracker.startTracking(PARTICLE_LIFESPAN, 40)
+        dataTracker.startTracking(EFFECT_LIFESPAN, 20)
+        dataTracker.startTracking(DENSITY, 5)
     }
 }
