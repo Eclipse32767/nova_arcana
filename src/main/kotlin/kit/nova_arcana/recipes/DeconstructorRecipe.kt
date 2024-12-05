@@ -31,6 +31,16 @@ class ManaOutputs(val fire: Int, val ice: Int, val earth: Int, val wind: Int, va
     fun pairList(): Array<Pair<ManaFilter, Int>> {
         return arrayOf(Pair(ManaFilter.FIRE, fire), Pair(ManaFilter.ICE, ice), Pair(ManaFilter.EARTH, earth), Pair(ManaFilter.WIND, wind), Pair(ManaFilter.SPIRIT, spirit), Pair(ManaFilter.VOID, nil))
     }
+    fun withSet(filter: ManaFilter, v: Int): ManaOutputs {
+        return when (filter) {
+            ManaFilter.FIRE -> ManaOutputs(v, ice, earth, wind, spirit, nil)
+            ManaFilter.ICE -> ManaOutputs(fire, v, earth, wind, spirit, nil)
+            ManaFilter.WIND -> ManaOutputs(fire, ice, earth, v, spirit, nil)
+            ManaFilter.EARTH -> ManaOutputs(fire, ice, v, wind, spirit, nil)
+            ManaFilter.SPIRIT -> ManaOutputs(fire, ice, earth, wind, v, nil)
+            ManaFilter.VOID -> ManaOutputs(fire, ice, earth, wind, spirit, v)
+        }
+    }
 }
 
 class DeconstructorRecipe(val input: Ingredient, val output: ManaOutputs): Recipe<PedestalEntity> {

@@ -1,0 +1,14 @@
+{
+  "type": "nova_arcana:deconstruction",
+  "ingredient": {
+    "item": "minecraft:emerald"
+  },
+  "output": {
+    "earth": 20,
+    "fire": 0,
+    "ice": 0,
+    "nil": 0,
+    "spirit": 0,
+    "wind": 0
+  }
+}

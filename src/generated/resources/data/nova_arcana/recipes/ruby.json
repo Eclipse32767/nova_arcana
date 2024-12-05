@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:blaze_powder"
+    },
+    "B": {
+      "item": "minecraft:netherrack"
+    }
+  },
+  "pattern": [
+    " A ",
+    "AAA",
+    " B "
+  ],
+  "result": {
+    "item": "nova_arcana:ruby"
+  },
+  "show_notification": true
+}

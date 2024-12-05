@@ -102,7 +102,7 @@ class InfusionStoneEntity(pos: BlockPos, state: BlockState) : BlockEntity(ModBlo
         }
         reagents.shuffle()
         val manaPool = mutableListOf<ManaVesselEntity>()
-        for (x in -10..10) for (y in -3..3) for (z in -10..10) {
+        for (x in -10..10) for (y in -5..5) for (z in -10..10) {
             val vessel = world.getBlockEntity(BlockPos(pos.x + x, pos.y + y, pos.z + z))
             if (vessel is ManaVesselEntity) manaPool += vessel
         }

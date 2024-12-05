@@ -1,0 +1,43 @@
+{
+  "type": "nova_arcana:infusion",
+  "central": {
+    "item": "minecraft:golden_apple"
+  },
+  "inputs": [
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "minecraft:gold_block"
+    }
+  ],
+  "manaInputs": {
+    "earth": 40,
+    "fire": 40,
+    "ice": 40,
+    "nil": 40,
+    "spirit": 40,
+    "wind": 40
+  },
+  "out": "minecraft:enchanted_golden_apple",
+  "outCount": 1,
+  "outData": {}
+}

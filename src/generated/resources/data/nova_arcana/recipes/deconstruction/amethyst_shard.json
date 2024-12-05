@@ -1,0 +1,14 @@
+{
+  "type": "nova_arcana:deconstruction",
+  "ingredient": {
+    "item": "minecraft:amethyst_shard"
+  },
+  "output": {
+    "earth": 0,
+    "fire": 0,
+    "ice": 0,
+    "nil": 20,
+    "spirit": 0,
+    "wind": 0
+  }
+}

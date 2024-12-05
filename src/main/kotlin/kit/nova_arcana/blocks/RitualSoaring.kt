@@ -87,7 +87,8 @@ class RitualSoaringBlockEntity(pos: BlockPos, state: BlockState): BlockEntity(Mo
             line.color2 = Color(0, 100, 200)
             line.startScale = 0.20f
             line.dest = pos.toCenterPos()
-            line.particleLifespan = 20
+            line.particleLifespan = 5
+            line.lifespan = 5
             line.density = 2
             line.setPosition(e.pos)
             line.setNoGravity(true)

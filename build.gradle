@@ -34,6 +34,14 @@ repositories {
 			includeGroup("com.eliotlash.mclib")
 		}
 	}
+	repositories {
+		maven {
+			url "https://dl.cloudsmith.io/public/klikli-dev/mods/maven/"
+			content {
+				includeGroup "com.klikli_dev"
+			}
+		}
+	}
 }
 /*
 loom {
@@ -48,9 +56,29 @@ loom {
 
 }
  */
-
 fabricApi {
 	configureDataGeneration()
+}
+loom {
+	runs {
+		create("data") {
+			client()
+			name("Data Generation")
+			vmArg("-Dfabric-api.datagen")
+			vmArg("-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}")
+			vmArg("-Dfabric-api.datagen.modid=nova_arcana")
+
+			property("porting_lib.datagen.existing_resources", file("src/main/resources").absolutePath)
+			property("nova_arcana.data.server", "false")
+
+			runDir("build/datagen")
+		}
+	}
+}
+sourceSets {
+	main {
+		resources.srcDir("src/generated/resources")
+	}
 }
 
 dependencies {
@@ -67,6 +95,9 @@ dependencies {
 	modImplementation "team.lodestar.lodestone:lodestone:1.20.1-1.6.2.3-fabric"
 	modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:4.4.9"
 	implementation("com.eliotlash.mclib:mclib:20")
+
+	modImplementation ("com.klikli_dev:modonomicon-${minecraft_version}-fabric:1.77.3")//{transitive=false}
+
 	//modImplementation "curse.maven:modonomicon-538392:5786083"
 }
 
