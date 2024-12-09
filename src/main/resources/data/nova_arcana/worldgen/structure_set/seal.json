@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "nova_arcana:seal",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:concentric_rings",
+    "distance": 5,
+    "count": 60,
+    "preferred_biomes": "#minecraft:has_structure/stronghold",
+    "spread": 3,
+    "salt": 1646207470
+  }
+}

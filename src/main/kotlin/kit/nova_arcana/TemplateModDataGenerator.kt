@@ -9,9 +9,13 @@ import kit.nova_arcana.recipes.ManaOutputs
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider
 import net.minecraft.block.Blocks
 import net.minecraft.data.DataOutput
+import net.minecraft.data.client.BlockStateModelGenerator
+import net.minecraft.data.client.ItemModelGenerator
+import net.minecraft.data.client.Model
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.data.server.recipe.RecipeProvider
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
@@ -26,6 +30,7 @@ import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.recipe.book.RecipeCategory
 import net.minecraft.registry.Registries
 import net.minecraft.util.Identifier
+import team.lodestar.lodestone.systems.datagen.ItemModelSmithTypes
 import java.util.function.Consumer
 
 object TemplateModDataGenerator : DataGeneratorEntrypoint {
@@ -92,6 +97,10 @@ class RecipeGen(output: DataOutput) : FabricRecipeProvider(output as FabricDataO
 		mkDeconstruction(exp) {
 			it.setInput(ModItems.alchRuby)
 			it.setOutput(ManaFilter.FIRE, 20)
+		}
+		mkDeconstruction(exp) {
+			it.setInput(Items.DIAMOND)
+			it.setAllOutput(10)
 		}
 	}
 }

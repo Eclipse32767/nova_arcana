@@ -182,10 +182,38 @@ fun regSpells() {
 
 
     registerSpell(Identifier("nova_arcana:spell/overclock"), Text.literal("Overclock"), Identifier("nova_arcana:item/mat-blank")) { world, user, hand, mod -> run {
-        if (user.getStatusEffect(ModEffects.FAIR_GROUND) != null) return@run SpellCastResult.FAIL
-        user.addStatusEffect(StatusEffectInstance(ModEffects.OVERCLOCKED, 300, 1))
-        user.addStatusEffect(StatusEffectInstance(ModEffects.FAIR_GROUND, 1200, 0))
-        //for (i in 0..20) recoverParticle(0.1f, 0.0f).spawnLine(world, user.pos, user.pos.add(10.0, 0.0, 0.0))
+        val cost = if (mod == SpellMod.EFF) 80 else 100
+        val pwr = if (mod == SpellMod.PWR) 2 else 1
+        val area = if (mod == SpellMod.AREA) 6.0 else 3.0
+        val h = ManaHandle(user)
+        val stk = user.getStackInHand(hand)
+        val rank = mkRank(stk.orCreateNbt.getInt("tier"))
+        if (!rank.canCast(WandRank.TIER1)) {
+            if (world.isClient) user.sendMessage(Text.literal("The Staff appears incompatible with this spell. How odd."))
+            return@run SpellCastResult.FAIL
+        }
+        if (h.mana >= cost) {
+        } else return@run SpellCastResult.FAIL
+        val targets = world.getOtherEntities(null, Box.of(user.pos, area, area, area))
+        val startCol = Color(100, 0, 100)
+        val edCol = Color(0, 100, 200)
+        val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
+        spawner.scaleData = GenericParticleData.create(0.5f, 0F).build()
+        spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
+        spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
+        spawner.setLifetime(40)
+        spawner.setRandomMotion(0.0, 0.1, 0.0)
+        spawner.enableNoClip()
+        spawner.repeatCircle(world, user.x, user.y, user.z, area/2, 20)
+        for (target in targets) {
+            if (target is LivingEntity) {
+                if (target.getStatusEffect(ModEffects.FAIR_GROUND) != null) continue
+                target.addStatusEffect(StatusEffectInstance(ModEffects.OVERCLOCKED, 300, pwr))
+                target.addStatusEffect(StatusEffectInstance(ModEffects.FAIR_GROUND, 1200, 0))
+            }
+        }
+        h.mana -= cost
+        h.syncMana()
         return@run SpellCastResult.SUCCESS
     }}
 }

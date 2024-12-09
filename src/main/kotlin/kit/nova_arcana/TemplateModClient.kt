@@ -3,6 +3,7 @@ package kit.nova_arcana
 import kit.nova_arcana.blocks.PedestalRenderer
 import kit.nova_arcana.client.regItemRenderers
 import net.fabricmc.api.ClientModInitializer
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin
@@ -10,9 +11,10 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
+import net.minecraft.block.Blocks
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
-import net.minecraft.client.render.block.entity.BlockEntityRenderer
+import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer
 import net.minecraft.client.util.InputUtil
@@ -38,6 +40,8 @@ object TemplateModClient : ClientModInitializer {
 		EntityRendererRegistry.register(ModEntities.ImmolateType) { ctx -> FlyingItemEntityRenderer(ctx) }
 		EntityRendererRegistry.register(ModEntities.InfusionParticleType) {FlyingItemEntityRenderer(it)}
 		EntityRendererRegistry.register(ModEntities.ManaBeamType) {FlyingItemEntityRenderer(it)}
+
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.INFUSION_STONE, RenderLayer.getTranslucent())
 
 		ModelLoadingPlugin.register {ctx -> run {
 			val idStrs = listOf("item/wand-core-basic", "item/wand-claw-basic", "item/wand-orb-basic", "item/wand-gem-emerald", "item/mat-blank",
