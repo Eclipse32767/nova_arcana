@@ -121,6 +121,8 @@ fun mkMainGrp() {
             entries.add(ModBlocks.DECONSTRUCTOR)
             entries.add(ModBlocks.INFUSION_STONE)
             entries.add(ModBlocks.RITUAL_SOARING)
+            entries.add(ModBlocks.RITUAL_FORGE)
+            entries.add(ModBlocks.RITUAL_HOARD)
             entries.add(ModBlocks.MANA_VESSEL_ICE)
             entries.add(ModBlocks.MANA_VESSEL_FIRE)
             entries.add(ModBlocks.MANA_VESSEL_EARTH)

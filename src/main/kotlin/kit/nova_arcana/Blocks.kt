@@ -32,4 +32,6 @@ object ModBlocks {
     val MANA_VESSEL_SPIRIT = register("mana-vessel-spirit", ManaVessel(FabricBlockSettings.create().nonOpaque(), ManaFilter.SPIRIT), FabricItemSettings())
     val MANA_VESSEL_VOID = register("mana-vessel-void", ManaVessel(FabricBlockSettings.create().nonOpaque(), ManaFilter.VOID), FabricItemSettings())
     val RITUAL_SOARING = register("ritual-soaring", RitualSoaringBlock(FabricBlockSettings.create().nonOpaque()), FabricItemSettings())
+    val RITUAL_FORGE = register("ritual-forge", RitualForge(FabricBlockSettings.create().nonOpaque()), FabricItemSettings())
+    val RITUAL_HOARD = register("ritual-hoard", RitualHoard(FabricBlockSettings.create().nonOpaque()), FabricItemSettings())
 }

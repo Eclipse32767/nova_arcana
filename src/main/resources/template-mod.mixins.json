@@ -3,6 +3,7 @@
   "package": "kit.nova_arcana.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "BurnTimeAccessor",
     "InvAccessor",
     "ScrewMilk"
   ],

@@ -24,5 +24,6 @@ object ModBlockEntities {
         ModBlocks.MANA_VESSEL_SPIRIT,
         ModBlocks.MANA_VESSEL_VOID).build(null))
     val RIT_SOARING_TYPE = register("ritual-soaring", FabricBlockEntityTypeBuilder.create({a, b -> RitualSoaringBlockEntity(a, b)}, ModBlocks.RITUAL_SOARING).build())
-
+    val RIT_FORGE_TYPE = register("ritual-forge", FabricBlockEntityTypeBuilder.create({a, b -> RitualForgeBlockEntity(a, b)}, ModBlocks.RITUAL_FORGE).build())
+    val RIT_HOARD_TYPE = register("ritual-hoard", FabricBlockEntityTypeBuilder.create({a, b -> RitualHoardBlockEntity(a, b)}, ModBlocks.RITUAL_HOARD).build())
 }
