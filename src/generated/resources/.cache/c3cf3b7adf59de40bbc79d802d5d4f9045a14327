@@ -1,13 +1,14 @@
-// 1.20.1	2024-12-05T13:42:08.453081919	Nova Arcana/Recipes
+// 1.20.1	2024-12-12T11:00:59.775106032	Nova Arcana/Recipes
 de23a1a04c7afb717ee59e80c17e3bdd815d4e97 data/nova_arcana/recipes/deconstruction/quartz.json
 47a4fc4396700ef62eb488c36804bd55219265d6 data/nova_arcana/recipes/deconstruction/ruby.json
 241c3fb2c31bd1c3f07b5d034a3b6df867792dd3 data/nova_arcana/recipes/deconstruction/emerald.json
 057417e484929e82dad7b204cdc527d9d86770dd data/nova_arcana/recipes/ruby.json
 742302baa0f726a028bb7d894b0c75a07f29ff38 data/nova_arcana/recipes/deconstruction/amber.json
 332ac23a0ff8580900c056f7418420aeecaecc4e data/nova_arcana/recipes/amber.json
+93ca29ba9716b192c20b201027d1b9ce40e92a4d data/nova_arcana/recipes/deconstruction/diamond.json
 69ecbb9ee99f9ca09ce3d3cbc2db80d41fb65560 data/nova_arcana/recipes/deconstruction/amethyst_shard.json
-c70aaccdb8d5bce7f3cf603a9e2224356ca878f2 data/nova_arcana/recipes/infusion/enchanted_golden_apple.json
 bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f data/nova_arcana/advancements/.json
+c70aaccdb8d5bce7f3cf603a9e2224356ca878f2 data/nova_arcana/recipes/infusion/enchanted_golden_apple.json
 a1ff75556dc912e6fe7f216dd0142c504aed50e5 data/nova_arcana/advancements/recipes/misc/amber.json
 2426ff21ac039e96413fd1b3bfa762466a034c28 data/nova_arcana/advancements/recipes/misc/ruby.json
 3d2eec4d943532bad2906f7275a7ac7dbb8440dc data/nova_arcana/recipes/deconstruction/prismarine_shard.json

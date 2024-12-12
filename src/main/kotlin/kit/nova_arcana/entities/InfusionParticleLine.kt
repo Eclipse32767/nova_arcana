@@ -34,6 +34,7 @@ class InfusionParticleLine(type: EntityType<InfusionParticleLine>, world: World,
     var startScale: Float
         get() = dataTracker.get(START_SCALE)
         set(value) = dataTracker.set(START_SCALE, value)
+    var lifespan = 2000
     fun particleSpawner(): WorldParticleBuilder {
         val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
         spawner.scaleData = GenericParticleData.create(startScale, 0.0f).build()
@@ -57,6 +58,8 @@ class InfusionParticleLine(type: EntityType<InfusionParticleLine>, world: World,
         //val logger = LoggerFactory.getLogger("hhhh")
         //logger.atInfo().log("${velocity.x}, ${velocity.y}, ${velocity.z}")
         particleSpawner().spawn(world, x, y, z)
+        lifespan--
+        if (lifespan <= 0) kill()
         if (pos.distanceTo(dest) < 0.5) kill()
     }
     override fun initDataTracker() {

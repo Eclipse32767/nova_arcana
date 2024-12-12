@@ -1,0 +1,14 @@
+{
+  "type": "nova_arcana:deconstruction",
+  "ingredient": {
+    "item": "minecraft:diamond"
+  },
+  "output": {
+    "earth": 10,
+    "fire": 10,
+    "ice": 10,
+    "nil": 10,
+    "spirit": 10,
+    "wind": 10
+  }
+}

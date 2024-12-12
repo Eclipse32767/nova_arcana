@@ -6,6 +6,7 @@ import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.listener.ClientPlayPacketListener
@@ -45,7 +46,7 @@ class ManaVessel(settings: Settings, val filter: ManaFilter) : BlockWithEntity(s
         hand: Hand,
         hit: BlockHitResult
     ): ActionResult {
-        if (world.isClient) return ActionResult.SUCCESS
+        //if (world.isClient) return ActionResult.SUCCESS
         val entity = world.getBlockEntity(pos)
         if (entity is ManaVesselEntity) player.sendMessage(Text.literal("This vessel is holding ${entity.contents}, ${entity.manaFilter} mana"))
         return ActionResult.SUCCESS
@@ -60,13 +61,20 @@ class ManaVesselEntity(pos: BlockPos, state: BlockState, filter: ManaFilter): Bl
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
         contents = nbt.getInt("contents")
+        max = nbt.getInt("max")
+        markDirty()
         manaFilter = ManaFilter.entries.toTypedArray()[nbt.getInt("filter")]
     }
 
     override fun writeNbt(nbt: NbtCompound) {
         super.writeNbt(nbt)
         nbt.putInt("contents", contents)
+        nbt.putInt("max", max)
         nbt.putInt("filter", manaFilter.ordinal)
+    }
+
+    override fun toInitialChunkDataNbt(): NbtCompound {
+        return createNbt()
     }
 
     fun add(t: ManaFilter, v: Int): Int {
@@ -75,9 +83,11 @@ class ManaVesselEntity(pos: BlockPos, state: BlockState, filter: ManaFilter): Bl
         if (newContents > max) {
             val out = newContents - max
             contents = max
+            markDirty()
             return out
         }
         contents = newContents
+        markDirty()
         return 0
     }
     fun sub(t: ManaFilter, v: Int): Int {
@@ -86,9 +96,11 @@ class ManaVesselEntity(pos: BlockPos, state: BlockState, filter: ManaFilter): Bl
         if (newContents < 0) {
             val out = contents
             contents = 0
+            markDirty()
             return out
         }
         contents = newContents
+        markDirty()
         return v
     }
 

@@ -1,6 +1,7 @@
 package kit.nova_arcana
 
 import kit.nova_arcana.blocks.PedestalRenderer
+import kit.nova_arcana.blocks.VesselRenderer
 import kit.nova_arcana.client.regItemRenderers
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
@@ -42,11 +43,14 @@ object TemplateModClient : ClientModInitializer {
 		EntityRendererRegistry.register(ModEntities.ManaBeamType) {FlyingItemEntityRenderer(it)}
 
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.INFUSION_STONE, RenderLayer.getTranslucent())
+		for (blk in listOf(ModBlocks.MANA_VESSEL_ICE, ModBlocks.MANA_VESSEL_FIRE, ModBlocks.MANA_VESSEL_VOID, ModBlocks.MANA_VESSEL_WIND, ModBlocks.MANA_VESSEL_EARTH, ModBlocks.MANA_VESSEL_SPIRIT)) {
+			BlockRenderLayerMap.INSTANCE.putBlock(blk, RenderLayer.getCutout())
+		}
 
 		ModelLoadingPlugin.register {ctx -> run {
 			val idStrs = listOf("item/wand-core-basic", "item/wand-claw-basic", "item/wand-orb-basic", "item/wand-gem-emerald", "item/mat-blank",
 				"item/mat-pwr", "item/mat-eff", "item/mat-area", "item/mat-flame", "item/mat-siphon", "item/mat-excavate",
-				"item/mat-support", "item/mat-dash", "item/mat-recovery")
+				"item/mat-support", "item/mat-dash", "item/mat-recovery", "item/mana-fire", "item/mana-ice", "item/mana-earth", "item/mana-wind", "item/mana-void", "item/mana-spirit")
 			for (id in idStrs) {
 				ctx.addModels(Identifier("nova_arcana:$id"))
 			}
@@ -56,6 +60,7 @@ object TemplateModClient : ClientModInitializer {
 		regItemRenderers(logger)
 		logger.atInfo().log("Registered wand renderer!")
 		BlockEntityRendererFactories.register(ModBlockEntities.PEDESTAL_TYPE) { PedestalRenderer(it) }
+		BlockEntityRendererFactories.register(ModBlockEntities.MANA_VESSEL_TYPE) {VesselRenderer(it)}
 		val swapSpell = KeyBindingHelper.registerKeyBinding(KeyBinding("key.nova_arcana.swap_spell", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, "category.nova_arcana.spellcasting"))
 		ClientTickEvents.END_CLIENT_TICK.register { client ->
 			run {
