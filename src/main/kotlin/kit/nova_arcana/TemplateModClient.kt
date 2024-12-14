@@ -41,11 +41,13 @@ object TemplateModClient : ClientModInitializer {
 		EntityRendererRegistry.register(ModEntities.ImmolateType) { ctx -> FlyingItemEntityRenderer(ctx) }
 		EntityRendererRegistry.register(ModEntities.InfusionParticleType) {FlyingItemEntityRenderer(it)}
 		EntityRendererRegistry.register(ModEntities.ManaBeamType) {FlyingItemEntityRenderer(it)}
+		EntityRendererRegistry.register(ModEntities.MagicMissileType) {FlyingItemEntityRenderer(it)}
 
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.INFUSION_STONE, RenderLayer.getTranslucent())
 		for (blk in listOf(ModBlocks.MANA_VESSEL_ICE, ModBlocks.MANA_VESSEL_FIRE, ModBlocks.MANA_VESSEL_VOID, ModBlocks.MANA_VESSEL_WIND, ModBlocks.MANA_VESSEL_EARTH, ModBlocks.MANA_VESSEL_SPIRIT)) {
 			BlockRenderLayerMap.INSTANCE.putBlock(blk, RenderLayer.getCutout())
 		}
+		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.BARRIER, RenderLayer.getCutout())
 
 		ModelLoadingPlugin.register {ctx -> run {
 			val idStrs = listOf("item/wand-core-basic", "item/wand-claw-basic", "item/wand-orb-basic", "item/wand-gem-emerald", "item/mat-blank",

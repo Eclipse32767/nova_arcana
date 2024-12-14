@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "active=true": {"model":  "minecraft:block/glass"},
+    "active=false": {"model":  "minecraft:block/barrier"}
+  }
+}

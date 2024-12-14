@@ -55,6 +55,9 @@ val spellInvReg: HashMap<Identifier, SpellInv> = HashMap()
 fun registerSpell(id: Identifier, name: Text, sprite: Identifier, effect: Spell) {
     spellReg[id] = SpellPkg(name, sprite, effect)
 }
+fun registerSpell(id: String, name: String, sprite: String, effect: Spell) {
+    registerSpell(Identifier(id), Text.literal(name), Identifier(sprite), effect)
+}
 
 fun mkMod(num: Int): SpellMod {
     return SpellMod.entries.filter { rank -> rank.v == num }[0]
@@ -117,7 +120,7 @@ fun dashParticle(s0: Float, s1: Float): WorldParticleBuilder {
     spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
     spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
     spawner.setLifetime(40)
-    //spawner.multiplyGravity(1.0f)
+    //spawner.multiplyGravity(1.0f)Text
     spawner.enableNoClip()
     return spawner
 }
@@ -214,6 +217,15 @@ fun regSpells() {
         }
         h.mana -= cost
         h.syncMana()
+        return@run SpellCastResult.SUCCESS
+    }}
+    registerSpell("nova_arcana:spell/magic-missile", "Magic Missile", "nova_arcana:item/mat-blank") {world, user, hand, mod -> run {
+        if (world.isClient) return@run SpellCastResult.SUCCESS
+        val bolt = MagicMissile(ModEntities.MagicMissileType, user, world)
+        bolt.setNoGravity(true)
+        bolt.setPosition(user.eyePos)
+        bolt.setVelocity(user, user.pitch, user.yaw, 0.0F, 0.5F, 0F)
+        world.spawnEntity(bolt)
         return@run SpellCastResult.SUCCESS
     }}
 }

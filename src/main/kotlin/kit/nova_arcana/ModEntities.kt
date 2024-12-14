@@ -10,7 +10,6 @@ import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
-import java.awt.Color
 
 object ModEntities {
     val FireballProjType = Registry.register(Registries.ENTITY_TYPE, Identifier("nova_arcana:fire_bolt"),
@@ -47,6 +46,11 @@ object ModEntities {
     val ManaBeamType = Registry.register(Registries.ENTITY_TYPE, Identifier("nova_arcana:mana_beam"),
         FabricEntityTypeBuilder.create(SpawnGroup.MISC) { type, world -> ManaBeam(type, world)}.dimensions(
             EntityDimensions(0.5f, 0.5f, true)
+        ).trackRangeBlocks(80).trackedUpdateRate(80).build()
+    )
+    val MagicMissileType = Registry.register(Registries.ENTITY_TYPE, Identifier("nova_arcana:magic_missile"),
+        FabricEntityTypeBuilder.create(SpawnGroup.MISC) { type, world -> MagicMissile(type, world)}.dimensions(
+            EntityDimensions(1f, 1f, true)
         ).trackRangeBlocks(80).trackedUpdateRate(80).build()
     )
 }

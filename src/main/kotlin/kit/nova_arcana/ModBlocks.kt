@@ -34,5 +34,7 @@ object ModBlocks {
     val RITUAL_SOARING = register("ritual-soaring", RitualSoaringBlock(FabricBlockSettings.create().nonOpaque()), FabricItemSettings())
     val RITUAL_FORGE = register("ritual-forge", RitualForge(FabricBlockSettings.create().nonOpaque()), FabricItemSettings())
     val RITUAL_HOARD = register("ritual-hoard", RitualHoard(FabricBlockSettings.create().nonOpaque()), FabricItemSettings())
+    val RITUAL_PRISON = register("ritual-prison", RitualImprisoned(FabricBlockSettings.create().nonOpaque()), FabricItemSettings())
+    val BARRIER = register("magic-barrier", BarrierBlock(FabricBlockSettings.copyOf(Blocks.GLASS).strength(50f).hardness(50f)))
     val MANA_FIRE = register("mana-fire", Block(FabricBlockSettings.create()), FabricItemSettings())
 }
