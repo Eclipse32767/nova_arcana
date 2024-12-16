@@ -10,11 +10,23 @@ import net.minecraft.block.entity.AbstractFurnaceBlockEntity
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.state.StateManager
+import net.minecraft.state.property.BooleanProperty
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import org.slf4j.LoggerFactory
 
-class RitualForge(settings: Settings?) : BlockWithEntity(settings), BlockEntityProvider {
+private val ACTIVE = BooleanProperty.of("active")
+
+class RitualForge(settings: Settings) : BlockWithEntity(settings.luminance { if (it.get(ACTIVE)) 2 else 0 }), BlockEntityProvider {
+    val h = run {
+        defaultState = defaultState.with(ACTIVE, false)
+    }
+
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
+        super.appendProperties(builder)
+        builder.add(ACTIVE)
+    }
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
         return RitualForgeBlockEntity(pos, state)
     }
@@ -32,18 +44,22 @@ class RitualForge(settings: Settings?) : BlockWithEntity(settings), BlockEntityP
 }
 class RitualForgeBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(ModBlockEntities.RIT_FORGE_TYPE, pos, state) {
     val reach = 2
-    val manacost = ManaOutputs(10, 0, 0, 0, 5, 0)
+    val manacost = ManaOutputs(10, 0, 0, 5, 0, 0)
     private val logger = LoggerFactory.getLogger("nova_arcana")
     fun tick(world: World, pos: BlockPos, state: BlockState) {
         if (world.isClient) return
-        if (world.isReceivingRedstonePower(pos)) return
+        if (world.isReceivingRedstonePower(pos)) {
+            world.setBlockState(pos, state.with(ACTIVE, false))
+            return
+        }
         val manaPool = mutableListOf<ManaVesselEntity>()
         for (x in -10..10) for (y in -3..3) for (z in -10..10) {
             val vessel = world.getBlockEntity(BlockPos(pos.x + x, pos.y + y, pos.z + z))
             if (vessel is ManaVesselEntity) manaPool += vessel
         }
         val lineSpawned = mutableListOf<BlockPos>()
-        for (x in pos.x-reach..pos.x+reach) for (y in pos.y-reach..pos.y+reach) for (z in pos.z-reach..pos.z+reach) {
+        var filled = false
+        head@for (x in pos.x-reach..pos.x+reach) for (y in pos.y-reach..pos.y+reach) for (z in pos.z-reach..pos.z+reach) {
             val entity = world.getBlockEntity(BlockPos(x, y, z))
             if (entity is BurnTimeAccessor && entity is AbstractFurnaceBlockEntity) {
                 if (entity.burnTime < 10 && !entity.getStack(0).isEmpty) {
@@ -56,10 +72,10 @@ class RitualForgeBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Mod
                             amtMet -= subtracted
                             if (subtracted <= 0) continue
                             if (lineSpawned.contains(vessel.pos)) {
-                                logger.atInfo().log("already spawned from here this tick")
+                                //logger.atInfo().log("already spawned from here this tick")
                                 continue
                             }
-                            logger.atInfo().log("spawning beam at ${vessel.pos.x}, ${vessel.pos.y}, ${vessel.pos.z}")
+                            //logger.atInfo().log("spawning beam at ${vessel.pos.x}, ${vessel.pos.y}, ${vessel.pos.z}")
                             val line = ManaBeam(ModEntities.ManaBeamType, world)
                             line.color1 = need.first.a
                             line.color2 = need.first.b
@@ -72,15 +88,18 @@ class RitualForgeBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Mod
                             lineSpawned += vessel.pos
                             logger.atInfo().log(lineSpawned.toString())
                         }
-                        if (amtMet > 0) return
+                        if (amtMet > 0) break@head
                     }
                     entity.burnTime = 1600
                     entity.fuelTime = 1600
                     var st = world.getBlockState(BlockPos(x, y, z))
                     st = st.with(AbstractFurnaceBlock.LIT, true)
                     world.setBlockState(BlockPos(x, y, z), st, Block.NOTIFY_ALL)
+                    filled = true
                 }
+                if (entity.burnTime > 10) filled = true
             }
         }
+        world.setBlockState(pos, state.with(ACTIVE, filled))
     }
 }

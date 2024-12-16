@@ -11,6 +11,7 @@ import net.minecraft.client.render.model.json.ModelTransformationMode
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.RotationAxis
 import org.slf4j.Logger
 
 class MultiPartRender(val logger: Logger, val fullbright: Boolean, val fn: (ItemStack, ModelTransformationMode) -> List<String>): DynamicItemRenderer {
@@ -39,6 +40,30 @@ class MultiPartRender(val logger: Logger, val fullbright: Boolean, val fn: (Item
 }
 
 fun regItemRenderers(logger: Logger) {
+    val wandRender = DynamicItemRenderer {stk, mode, mat, vtxConsumer, light, overlay ->
+        mat.push()
+        val client = MinecraftClient.getInstance()
+        mat.translate(0.5, 0.5, 0.5)
+        val nbt = stk.orCreateNbt
+        for (path in listOf(nbt.getString("core"), nbt.getString("decor"))) {
+            val mdl = client.bakedModelManager.getModel(Identifier(path))
+            if (mdl != null) {
+                client.itemRenderer.renderItem(stk, mode, false, mat, vtxConsumer, light, overlay, mdl)
+            } else {
+                logger.atInfo().log("Model Not Found: $path")
+            }
+        }
+        val wld = client.world ?: return@DynamicItemRenderer
+        val gemMdl = client.bakedModelManager.getModel(Identifier(nbt.getString("gem")))?: return@DynamicItemRenderer
+        if (!nbt.getBoolean("gem3d")) {
+            mat.translate(0.0, 0.85, 0.0)
+            mat.scale(0.3f, 0.3f, 0.3f)
+            mat.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((wld.time + client.tickDelta) * -3));
+        }
+        client.itemRenderer.renderItem(stk, ModelTransformationMode.NONE, false, mat, vtxConsumer, light, overlay, gemMdl)
+        mat.pop()
+    }
+            /*
     val wandRender = MultiPartRender(logger, false) { stk, mode -> run {
         val nbt = stk.orCreateNbt
         val base = nbt.getString("core")
@@ -46,6 +71,8 @@ fun regItemRenderers(logger: Logger) {
         val gem = nbt.getString("gem")
         listOf(base, decor, gem)
     }}
+
+             */
     BuiltinItemRendererRegistry.INSTANCE.register(ModItems.wand, wandRender)
     val partRender = MultiPartRender(logger, false) {stk, mode -> listOf(stk.orCreateNbt.getString("model"))}
     BuiltinItemRendererRegistry.INSTANCE.register(ModItems.wandCore, partRender)

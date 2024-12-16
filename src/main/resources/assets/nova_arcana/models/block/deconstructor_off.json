@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "nova_arcana:block/decon-side-off",
+    "down": "nova_arcana:block/decon-top-off",
+    "up": "nova_arcana:block/decon-top-off",
+    "north": "nova_arcana:block/decon-side-off",
+    "south": "nova_arcana:block/decon-side-off",
+    "east": "nova_arcana:block/decon-side-off",
+    "west": "nova_arcana:block/decon-side-off"
+  }
+}

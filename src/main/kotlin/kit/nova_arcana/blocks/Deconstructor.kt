@@ -1,5 +1,6 @@
 package kit.nova_arcana.blocks
 
+import kit.nova_arcana.ModBlocks
 import kit.nova_arcana.ModEntities
 import kit.nova_arcana.Recipes
 import kit.nova_arcana.entities.InfusionParticleLine
@@ -21,8 +22,8 @@ import org.slf4j.LoggerFactory
 import kotlin.jvm.optionals.getOrNull
 
 private val TRIGGERED = BooleanProperty.of("triggered")
-
-class Deconstructor(settings: FabricBlockSettings): Block(settings) {
+//
+class Deconstructor(settings: FabricBlockSettings): Block(settings.luminance { if (it.get(TRIGGERED)) 2 else 0 }) {
     val logger = LoggerFactory.getLogger("deconstructor_log")
     val h = run {
         defaultState = defaultState.with(TRIGGERED, false)
@@ -44,15 +45,18 @@ class Deconstructor(settings: FabricBlockSettings): Block(settings) {
         val bl = view.isReceivingRedstonePower(pos) || view.isReceivingRedstonePower(pos.up())
         val bl2 = state.get(TRIGGERED) as Boolean
         if (bl && !bl2) {
-            world.scheduleBlockTick(pos, this, 4)
-            world.setBlockState(pos, state.with(TRIGGERED, true), NO_REDRAW)
+            world.scheduleBlockTick(pos, this, 20)
+            world.setBlockState(pos, state.with(TRIGGERED, true))
         } else if (!bl && bl2) {
-            world.setBlockState(pos, state.with(TRIGGERED, false), NO_REDRAW)
+            if (!world.blockTickScheduler.isQueued(pos, ModBlocks.DECONSTRUCTOR)) {
+                world.setBlockState(pos, state.with(TRIGGERED, false))
+            }
         }
     }
 
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
         super.scheduledTick(state, world, pos, random)
+        world.setBlockState(pos, state.with(TRIGGERED, false))
         val pedestalPos = BlockPos(pos.x, pos.y+1, pos.z)
         val pedestal = world.getBlockEntity(pedestalPos)
         //logger.atInfo().log("am powered")
@@ -92,5 +96,6 @@ class Deconstructor(settings: FabricBlockSettings): Block(settings) {
             pedestal.inv.decrement(1)
             pedestal.markDirty()
         }
+        //world.setBlockState(pos, state.with(TRIGGERED, false))
     }
 }

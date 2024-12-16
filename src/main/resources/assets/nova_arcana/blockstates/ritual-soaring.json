@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "active=true": {"model": "nova_arcana:block/rit-soaring-on"},
+    "active=false": {"model": "nova_arcana:block/rit-soaring-off"}
+  }
+}

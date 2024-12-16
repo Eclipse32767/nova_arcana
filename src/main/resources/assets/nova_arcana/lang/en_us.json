@@ -7,5 +7,19 @@
   "category.nova_arcana.spellcasting": "Nova Arcana: Spellcasting",
   "key.nova_arcana.swap_spell": "Swap Active Spell",
   "item.nova_arcana.ruby": "Alchemical Ruby",
-  "item.nova_arcana.amber": "Amber"
+  "item.nova_arcana.amber": "Amber",
+  "item.nova_arcana.pristine-diamond": "Pristine Diamond",
+  "block.nova_arcana.deconstructor": "Deconstructor",
+  "block.nova_arcana.infusion-stone": "Prismatic Lens",
+  "block.nova_arcana.pedestal": "Pedestal",
+  "block.nova_arcana.ritual-soaring": "Ritual Keystone of Soaring",
+  "block.nova_arcana.ritual-forge": "Ritual Keystone of The Forge",
+  "block.nova_arcana.ritual-hoard": "Ritual Keystone of The Hoard",
+  "block.nova_arcana.ritual-prison": "Ritual Keystone of The Imprisoned",
+  "block.nova_arcana.mana-vessel-ice": "Mana Vessel: Ice",
+  "block.nova_arcana.mana-vessel-fire": "Mana Vessel: Fire",
+  "block.nova_arcana.mana-vessel-earth": "Mana Vessel: Earth",
+  "block.nova_arcana.mana-vessel-wind": "Mana Vessel: Wind",
+  "block.nova_arcana.mana-vessel-spirit": "Mana Vessel: Spirit",
+  "block.nova_arcana.mana-vessel-void": "Mana Vessel: Void"
 }

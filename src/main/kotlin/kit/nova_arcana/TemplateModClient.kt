@@ -50,11 +50,15 @@ object TemplateModClient : ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.BARRIER, RenderLayer.getCutout())
 
 		ModelLoadingPlugin.register {ctx -> run {
-			val idStrs = listOf("item/wand-core-basic", "item/wand-claw-basic", "item/wand-orb-basic", "item/wand-gem-emerald", "item/mat-blank",
+			val idStrs = listOf("item/wand-core-basic", "item/wand-claw-basic", "item/wand-orb-basic", "item/wand-gem-emerald", "item/ruby", "item/amber", "item/pristine-diamond", "item/mat-blank",
 				"item/mat-pwr", "item/mat-eff", "item/mat-area", "item/mat-flame", "item/mat-siphon", "item/mat-excavate",
 				"item/mat-support", "item/mat-dash", "item/mat-recovery", "item/mana-fire", "item/mana-ice", "item/mana-earth", "item/mana-wind", "item/mana-void", "item/mana-spirit")
 			for (id in idStrs) {
 				ctx.addModels(Identifier("nova_arcana:$id"))
+			}
+			val vIdStrs = listOf("item/diamond", "item/emerald", "item/prismarine_shard", "item/amethyst_shard", "item/quartz")
+			for (id in vIdStrs) {
+				ctx.addModels(Identifier("minecraft:$id"))
 			}
 		}}
 

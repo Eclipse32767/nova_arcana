@@ -7,10 +7,10 @@
   ],
   "placement": {
     "type": "minecraft:concentric_rings",
-    "distance": 5,
+    "distance": 10,
     "count": 60,
     "preferred_biomes": "#minecraft:has_structure/stronghold",
-    "spread": 3,
+    "spread": 15,
     "salt": 1646207470
   }
 }

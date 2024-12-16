@@ -25,6 +25,7 @@ object ModItems {
     val modMateria = register("mod-materia", ModMateria(FabricItemSettings().maxCount(1)))
     val alchRuby = register("ruby", Item(FabricItemSettings()))
     val amber = register("amber", Item(FabricItemSettings()))
+    val pristineDiamond = register("pristine-diamond", Item(FabricItemSettings()))
     val MatSurrogates = object  {
         val effMat = register("mat-eff", SurrogateItem(mkModMateria(SpellMod.EFF, "")))
         val pwrMat = register("mat-pwr", SurrogateItem(mkModMateria(SpellMod.PWR, "")))

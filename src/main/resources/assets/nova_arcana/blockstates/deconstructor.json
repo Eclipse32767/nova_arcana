@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "triggered=true": {"model": "nova_arcana:block/deconstructor_on"},
+    "triggered=false": {"model": "nova_arcana:block/deconstructor_off"}
+  }
+}

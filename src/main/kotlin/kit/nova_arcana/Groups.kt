@@ -17,14 +17,17 @@ import net.minecraft.text.Text
 
 object Prefabs {
     val CORE_OAK = corePartStk("nova_arcana:item/wand-core-basic", "Oak Staff Core", 2, 0)
+    val CORE_WARPED = corePartStk("nova_arcana:item/wand-core-basic", "Warped Staff Core", 6, 0)
     val DECOR_CLAW_BASIC = decorPartStk("nova_arcana:item/wand-claw-basic", "Staff Decor: Basic Claw")
     val DECOR_ORB_BASIC = decorPartStk("nova_arcana:item/wand-orb-basic", "Staff Decor: Basic Orb")
-    val GEM_EMERALD = gemPartStk("nova_arcana:item/wand-gem-emerald", "Emerald", WandRank.EARTHONLY)
-    val GEM_RUBY = gemPartStk("nova_arcana:item/wand-gem-emerald", "Ruby", WandRank.FIREONLY)
-    val GEM_PRISMARINE = gemPartStk("nova_arcana:item/wand-gem-emerald", "Prismarine", WandRank.FROSTONLY)
-    val GEM_AMBER = gemPartStk("nova_arcana:item/wand-gem-emerald", "Amber", WandRank.AIRONLY)
-    val GEM_QUARTZ = gemPartStk("nova_arcana:item/wand-gem-emerald", "Quartz", WandRank.SPIRITONLY)
-    val GEM_AMETHYST = gemPartStk("nova_arcana:item/wand-gem-emerald", "Amethyst", WandRank.VOIDONLY)
+    val GEM_EMERALD = gemPartStk("minecraft:item/emerald", "Emerald", WandRank.EARTHONLY)
+    val GEM_RUBY = gemPartStk("nova_arcana:item/ruby", "Ruby", WandRank.FIREONLY)
+    val GEM_PRISMARINE = gemPartStk("minecraft:item/prismarine_shard", "Prismarine", WandRank.FROSTONLY)
+    val GEM_AMBER = gemPartStk("nova_arcana:item/amber", "Amber", WandRank.AIRONLY)
+    val GEM_QUARTZ = gemPartStk("minecraft:item/quartz", "Quartz", WandRank.SPIRITONLY)
+    val GEM_AMETHYST = gemPartStk("minecraft:item/amethyst_shard", "Amethyst", WandRank.VOIDONLY)
+    val GEM_DIAMOND = gemPartStk("minecraft:item/diamond", "Diamond", WandRank.PRIMAL)
+    val GEM_PRISTINE = gemPartStk("nova_arcana:item/pristine-diamond", "Pristine Diamond", WandRank.TIER1)
 }
 
 
@@ -92,7 +95,7 @@ fun matStk(a: String): ItemStack {
 
 fun mkMainGrp() {
     val wandkey = RegistryKey.of(Registries.ITEM_GROUP.key, Identifier.of("nova_arcana", "wands"));
-    val grpWands = FabricItemGroup.builder().icon { wandStk("nova_arcana:item/wand-core-basic", "nova_arcana:item/wand-claw-basic", "nova_arcana:item/wand-gem-emerald") }
+    val grpWands = FabricItemGroup.builder().icon { wandStk("nova_arcana:item/wand-core-basic", "nova_arcana:item/wand-claw-basic", "nova_arcana:item/pristine-diamond") }
         .displayName(Text.translatable("itemGroup.nova_arcana.wands")).entries { _, entries -> run {
             val decors = listOf("nova_arcana:item/wand-claw-basic", "nova_arcana:item/wand-orb-basic")
             /*
@@ -101,6 +104,7 @@ fun mkMainGrp() {
             }}
              */
             entries.add(Prefabs.CORE_OAK)
+            entries.add(Prefabs.CORE_WARPED)
             entries.add(Prefabs.DECOR_CLAW_BASIC)
             entries.add(Prefabs.DECOR_ORB_BASIC)
             entries.add(Prefabs.GEM_EMERALD)
@@ -109,14 +113,15 @@ fun mkMainGrp() {
             entries.add(Prefabs.GEM_AMBER)
             entries.add(Prefabs.GEM_AMETHYST)
             entries.add(Prefabs.GEM_QUARTZ)
+            entries.add(Prefabs.GEM_DIAMOND)
+            entries.add(Prefabs.GEM_PRISTINE)
             entries.add(corePartStk("nova_arcana:item/wand-core-basic", "Dirty Cheater's Staff Core", 1, 13))
-            entries.add(gemPartStk("nova_arcana:item/wand-gem-emerald", "CheaterGem", WandRank.CHEATER))
+            entries.add(gemPartStk("nova_arcana:item/pristine-diamond", "CheaterGem", WandRank.CHEATER))
     }}.build()
     val blkkey = RegistryKey.of(Registries.ITEM_GROUP.key, Identifier.of("nova_arcana", "blocks"))
     val grpBlks = FabricItemGroup.builder().icon {ModBlocks.STAFF_WORKBENCH.asItem().defaultStack}
         .displayName(Text.translatable("itemGroup.nova_arcana.blocks")).entries {_, entries -> run {
             entries.add(ItemStack(ModBlocks.STAFF_WORKBENCH, 1))
-            entries.add(ModBlocks.RITUALBLOCK)
             entries.add(ModBlocks.PEDESTAL)
             entries.add(ModBlocks.DECONSTRUCTOR)
             entries.add(ModBlocks.INFUSION_STONE)
@@ -152,6 +157,7 @@ fun mkMainGrp() {
     ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register { run {
         it.add(ModItems.alchRuby)
         it.add(ModItems.amber)
+        it.add(ModItems.pristineDiamond)
     } }
     Registry.register(Registries.ITEM_GROUP, wandkey, grpWands)
     Registry.register(Registries.ITEM_GROUP, blkkey, grpBlks)

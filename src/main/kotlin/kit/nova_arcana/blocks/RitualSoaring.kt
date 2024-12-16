@@ -18,6 +18,8 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.state.StateManager
+import net.minecraft.state.property.BooleanProperty
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.world.World
@@ -28,11 +30,20 @@ import team.lodestar.lodestone.systems.particle.data.GenericParticleData
 import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData
 import java.awt.Color
 
-class RitualSoaringBlock(settings: FabricBlockSettings) : BlockWithEntity(settings), BlockEntityProvider {
+private val ACTIVE = BooleanProperty.of("active")
+
+class RitualSoaringBlock(settings: FabricBlockSettings) : BlockWithEntity(settings.luminance { if (it.get(ACTIVE)) 2 else 0 }), BlockEntityProvider {
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
         return RitualSoaringBlockEntity(pos, state)
     }
+    val h = run {
+        defaultState = defaultState.with(ACTIVE, false)
+    }
 
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
+        super.appendProperties(builder)
+        builder.add(ACTIVE)
+    }
     override fun getRenderType(state: BlockState): BlockRenderType {
         return BlockRenderType.MODEL
     }
@@ -52,9 +63,15 @@ class RitualSoaringBlockEntity(pos: BlockPos, state: BlockState): BlockEntity(Mo
     fun tick(world: World, pos: BlockPos, state: BlockState) {
         tickcount++
         if (tickcount % 20 != 0) return
-        if (world.isReceivingRedstonePower(pos)) return
+        if (world.isReceivingRedstonePower(pos)) {
+            world.setBlockState(pos, state.with(ACTIVE, false))
+            return
+        }
         val players = world.getOtherEntities(null, Box.of(pos.toCenterPos(), 20.0, 80.0, 20.0)).filterIsInstance<PlayerEntity>()
-        if (players.isEmpty()) return
+        if (players.isEmpty()) {
+            world.setBlockState(pos, state.with(ACTIVE, false))
+            return
+        }
         val manaPool = mutableListOf<ManaVesselEntity>()
         for (x in -10..10) for (y in -3..3) for (z in -10..10) {
             val vessel = world.getBlockEntity(BlockPos(pos.x + x, pos.y + y, pos.z + z))
@@ -79,7 +96,10 @@ class RitualSoaringBlockEntity(pos: BlockPos, state: BlockState): BlockEntity(Mo
                 //line.mvTowardTrgt()
                 world.spawnEntity(line)
             }
-            if (amtMet > 0) return
+            if (amtMet > 0) {
+                world.setBlockState(pos, state.with(ACTIVE, false))
+                return
+            }
         }
         for (e in players) {
             val line = ManaBeam(ModEntities.ManaBeamType, world)
@@ -102,5 +122,6 @@ class RitualSoaringBlockEntity(pos: BlockPos, state: BlockState): BlockEntity(Mo
                 e.addStatusEffect(StatusEffectInstance(ModEffects.SOARING, 60, 0))
             }
         }
+        world.setBlockState(pos, state.with(ACTIVE, true))
     }
 }

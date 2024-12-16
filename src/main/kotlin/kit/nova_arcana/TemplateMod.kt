@@ -3,8 +3,15 @@ package kit.nova_arcana
 import kit.nova_arcana.armor.MagicArmor
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
+import net.minecraft.loot.LootPool
+import net.minecraft.loot.entry.EmptyEntry
+import net.minecraft.loot.entry.ItemEntry
+import net.minecraft.loot.entry.LootPoolEntry
 import net.minecraft.registry.Registry
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3d
 import org.slf4j.LoggerFactory
 import kotlin.math.abs
@@ -66,6 +73,32 @@ object TemplateMod : ModInitializer {
 					if (h.mana > h.manacap) h.mana = h.manacap
 					h.syncMana()
 				}
+			}
+		}
+		LootTableEvents.MODIFY.register {resourceManager, lootManager, id, tableBuilder, source ->
+			val has_pristine = listOf(
+				"desert_pyramid",
+				"woodland_mansion",
+				"ancient_city",
+				"abandoned_mineshaft",
+				"buried_treasure",
+				"end_city_treasure",
+				"jungle_temple",
+				"ruined_portal",
+				"simple_dungeon",
+				"stronghold_corridor",
+				"stronghold_crossing",
+				"stronghold_library"
+			).filter { id.equals(Identifier("minecraft", "chests/$it")) }.isNotEmpty()
+
+			if (source.isBuiltin && has_pristine) {
+				val poolBuilder = LootPool.builder().with(
+					ItemEntry.builder(ModItems.pristineDiamond).weight(1)
+				).with(
+					EmptyEntry.builder().weight(7)
+				)
+				tableBuilder.pool(poolBuilder)
+				logger.atInfo().log("modifying loot")
 			}
 		}
 	}

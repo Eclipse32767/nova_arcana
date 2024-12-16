@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "nova_arcana:block/rit-forge-on",
+    "down": "minecraft:block/stone_bricks",
+    "up": "minecraft:block/stone_bricks",
+    "north": "nova_arcana:block/rit-forge-on",
+    "south": "nova_arcana:block/rit-forge-on",
+    "east": "nova_arcana:block/rit-forge-on",
+    "west": "nova_arcana:block/rit-forge-on"
+  }
+}
