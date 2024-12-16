@@ -2,6 +2,7 @@ package kit.nova_arcana.entities
 
 import kit.nova_arcana.ModEntities
 import kit.nova_arcana.SpellMod
+import kit.nova_arcana.fx.WispTrailEffects
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
@@ -28,21 +29,12 @@ class ImmolateProj: ThrownItemEntity {
     var lifespan = 50
     var damage = 1f
     val burnTime = 3
-    val particleMain = getParticle(0.5f, 0f)
-    val particleFireball = getParticle(5f, 0f)
-    fun getParticle(s1: Float, s2: Float): WorldParticleBuilder {
-        val startCol = Color(252, 167, 63)
-        val edCol = Color(252, 113, 63)
-        val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.SMOKE_PARTICLE)
-        spawner.scaleData = GenericParticleData.create(s1, s2).build()
-        spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
-        spawner.colorData = ColorParticleData.create(startCol, edCol)
-            .setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-        //spawner.spinData = SpinParticleData.create(0.2f, 0.4f).setSpinOffset((world.time * 0.2f) % 6.28f).setEasing(Easing.QUARTIC_IN).build()
-        spawner.setLifetime(40)
-        spawner.addMotion(0.0, 0.01, 0.0)
-        spawner.enableNoClip()
-        return spawner
+    fun getParticle(s1: Float, s2: Float): WispTrailEffects {
+        val fx = WispTrailEffects(Color(252, 167, 63), Color(252, 113, 63), pos)
+        fx.motion = Vec3d(0.0, 0.01, 0.0)
+        fx.smoke = true
+        fx.startScale = s1
+        return fx
     }
     override fun getDefaultItem(): Item {
         return Items.AIR
@@ -52,7 +44,7 @@ class ImmolateProj: ThrownItemEntity {
             this.kill()
             return
         }
-        particleFireball.setForceSpawn(true).repeat(world, x, y, z, 5)
+        if (world.isClient) for (i in 0..5) getParticle(5f, 0f).spawn(world)
         for (entity in this.world.getOtherEntities(this, Box.of(pos, 5.0, 5.0, 5.0))) {
             val source =
                 DamageSource(world.registryManager.get(RegistryKeys.DAMAGE_TYPE).entryOf(DamageTypes.FIREBALL), owner)
@@ -74,7 +66,7 @@ class ImmolateProj: ThrownItemEntity {
 
     override fun tick() {
         super.tick()
-        particleMain.spawn(world, x, y, z)
+        if (world.isClient) getParticle(0.5f, 0.0f).spawn(world)
         lifespan--
         if (lifespan <= 0) {
             fireball()

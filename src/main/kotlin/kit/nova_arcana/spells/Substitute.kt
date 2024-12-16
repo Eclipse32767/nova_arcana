@@ -58,10 +58,7 @@ fun regSubstitute(logger: Logger) {
                 val hardness = world.getBlockState(blockPos).block.hardness
                 if (hardness > 0 && hardness < 9) {
                     if (world.isClient) {
-                        val spawner = excavateParticle(0.25f, 0.0f)
-                        for (i in (0..5)) {
-                            spawner.createBlockOutline(world, blockPos, world.getBlockState(blockPos))
-                        }
+                        excavateParticle(0.25f, blockPos, world.getBlockState(blockPos), 5)
                         continue
                     }
                     if (user.offHandStack.isEmpty) break
@@ -117,7 +114,7 @@ fun regSubstitute(logger: Logger) {
             positions.distinct()
             for (pos in positions) {
                 //excavateParticle(0.10f, 0.0f).createBlockOutline(world, pos, world.getBlockState(pos))
-                if (ClientTickCounter.ticksInGame % 4 == 0L) supportParticle(0.10f, 0.0f).createBlockOutline(world, pos, world.getBlockState(pos))
+                if (ClientTickCounter.ticksInGame % 4 == 0L) supportParticle(0.10f, pos, world.getBlockState(pos), 0).spawn(world)
             }
         }
     }}

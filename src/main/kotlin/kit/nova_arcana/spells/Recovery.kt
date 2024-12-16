@@ -34,7 +34,7 @@ fun regRecovery(logger: Logger) {
                     entity.heal(amount)
                 }
             }
-            recoverParticle(0.25f, 0.0f).setRandomMotion(0.0, 0.1, 0.0).repeatCircle(world, user.x, user.y+1, user.z, area.toDouble(), 40)
+            if (world.isClient) recoverParticle(0.25f, user.pos.add(0.0, 1.0, 0.0), area.toDouble(), 40).spawn(world)
             return@run SpellCastResult.SUCCESS
         }
     }

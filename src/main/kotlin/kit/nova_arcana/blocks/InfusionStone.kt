@@ -31,11 +31,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import org.slf4j.LoggerFactory
-import team.lodestar.lodestone.registry.common.particle.LodestoneParticleRegistry
-import team.lodestar.lodestone.systems.easing.Easing
-import team.lodestar.lodestone.systems.particle.builder.WorldParticleBuilder
-import team.lodestar.lodestone.systems.particle.data.GenericParticleData
-import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData
 import java.awt.Color
 import java.util.*
 import kotlin.collections.HashMap

@@ -1,5 +1,6 @@
 package kit.nova_arcana.entities
 
+import kit.nova_arcana.fx.ManaLineEffects
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
@@ -10,11 +11,6 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import org.joml.Vector3f
 import org.slf4j.LoggerFactory
-import team.lodestar.lodestone.registry.common.particle.LodestoneParticleRegistry
-import team.lodestar.lodestone.systems.easing.Easing
-import team.lodestar.lodestone.systems.particle.builder.WorldParticleBuilder
-import team.lodestar.lodestone.systems.particle.data.GenericParticleData
-import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData
 import java.awt.Color
 
 private val START_SCALE = DataTracker.registerData(ManaBeam::class.java, TrackedDataHandlerRegistry.FLOAT)
@@ -51,15 +47,6 @@ class ManaBeam(type: EntityType<ManaBeam>, world: World): ThrownItemEntity(type,
     var density: Int
         get() = dataTracker.get(DENSITY)
         set(value) = dataTracker.set(DENSITY, value)
-    fun particleSpawner(): WorldParticleBuilder {
-        val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
-        spawner.scaleData = GenericParticleData.create(startScale, 0.0f).build()
-        spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
-        spawner.colorData = ColorParticleData.create(color1, color2).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-        spawner.setLifetime(particleLifespan)
-        spawner.enableNoClip()
-        return spawner
-    }
     override fun getDefaultItem(): Item {
         return Items.AIR
     }
@@ -69,8 +56,11 @@ class ManaBeam(type: EntityType<ManaBeam>, world: World): ThrownItemEntity(type,
         //mvTowardTrgt()
         //val logger = LoggerFactory.getLogger("hhhh")
         //logger.atInfo().log("${velocity.x}, ${velocity.y}, ${velocity.z}")
-        for (i in 0..density) particleSpawner().spawnLine(world, pos, dest)
-        if (world.isClient) return
+
+        if (world.isClient) {
+            ManaLineEffects(color1, color2, particleLifespan, density, startScale, pos, dest).spawn(world)
+            return
+        }
         lifespan--
         if (lifespan < 0) kill()
     }

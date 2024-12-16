@@ -31,6 +31,10 @@ object TemplateMod : ModInitializer {
 		val recipes = Recipes
 		val blks = ModBlocks
 		val blkEntities = ModBlockEntities
+		val net = ModMessages
+		if (net.SPELLSWAP) {
+			logger.atInfo().log("spell swapping successfully registered")
+		}
 		val effects = ModEffects
 		mkMainGrp()
 		regSpells()

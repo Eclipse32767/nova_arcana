@@ -1,5 +1,6 @@
 package kit.nova_arcana.entities
 
+import kit.nova_arcana.fx.WispTrailEffects
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
@@ -36,18 +37,6 @@ class ExcavateItem: ThrownItemEntity {
         carryStack = itemStack
     }
 
-    private fun spawnParticle() {
-        val startCol = Color(1, 153, 1)
-        val edCol = Color(9, 249, 149)
-        val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
-        spawner.scaleData = GenericParticleData.create(0.50f, 0F).build()
-        spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
-        spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-        spawner.setLifetime(40)
-        spawner.enableNoClip()
-        spawner.spawn(world, pos.x, pos.y, pos.z)
-    }
-
     fun mvTowardTrgt(trgt: Vec3d) {
         val diff = trgt - pos
         this.setVelocity(diff.x, diff.y, diff.z, 0.5F, 0.0F)
@@ -65,8 +54,8 @@ class ExcavateItem: ThrownItemEntity {
     }
     override fun tick() {
         super.tick()
-        spawnParticle()
         if (this.world.isClient) {
+            WispTrailEffects(false, Color(1, 153, 1), Color(9, 249, 149), 0.5f, 40, pos).spawn(world)
             return
         }
         lifespan++

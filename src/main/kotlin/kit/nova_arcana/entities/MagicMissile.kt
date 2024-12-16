@@ -29,10 +29,11 @@ class MagicMissile: ThrownItemEntity {
     val logger = LoggerFactory.getLogger("magic-missile")
     override fun tick() {
         super.tick()
-        dashParticle(0.5f, 0.0f).spawn(world, x, y, z)
         if (!world.isClient) {
             lifespan--
             if (lifespan < 0) kill()
+        } else {
+            dashParticle(0.5f, pos).spawn(world)
         }
         if (owner != null) {
             //logger.atInfo().log("retargeting")

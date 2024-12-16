@@ -17,7 +17,7 @@ import net.minecraft.text.Text
 
 object Prefabs {
     val CORE_OAK = corePartStk("nova_arcana:item/wand-core-basic", "Oak Staff Core", 2, 0)
-    val CORE_WARPED = corePartStk("nova_arcana:item/wand-core-basic", "Warped Staff Core", 6, 0)
+    val CORE_WARPED = corePartStk("nova_arcana:item/wand-core-warped", "Warped Staff Core", 6, 0)
     val DECOR_CLAW_BASIC = decorPartStk("nova_arcana:item/wand-claw-basic", "Staff Decor: Basic Claw")
     val DECOR_ORB_BASIC = decorPartStk("nova_arcana:item/wand-orb-basic", "Staff Decor: Basic Orb")
     val GEM_EMERALD = gemPartStk("minecraft:item/emerald", "Emerald", WandRank.EARTHONLY)
@@ -116,7 +116,7 @@ fun mkMainGrp() {
             entries.add(Prefabs.GEM_DIAMOND)
             entries.add(Prefabs.GEM_PRISTINE)
             entries.add(corePartStk("nova_arcana:item/wand-core-basic", "Dirty Cheater's Staff Core", 1, 13))
-            entries.add(gemPartStk("nova_arcana:item/pristine-diamond", "CheaterGem", WandRank.CHEATER))
+            entries.add(gemPartStk("nova_arcana:item/gay-gem", "CheaterGem", WandRank.CHEATER))
     }}.build()
     val blkkey = RegistryKey.of(Registries.ITEM_GROUP.key, Identifier.of("nova_arcana", "blocks"))
     val grpBlks = FabricItemGroup.builder().icon {ModBlocks.STAFF_WORKBENCH.asItem().defaultStack}

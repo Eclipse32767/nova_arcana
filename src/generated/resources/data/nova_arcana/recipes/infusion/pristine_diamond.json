@@ -1,0 +1,25 @@
+{
+  "type": "nova_arcana:infusion",
+  "central": {
+    "item": "nova_arcana:pristine-diamond"
+  },
+  "inputs": [
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:diamond"
+    }
+  ],
+  "manaInputs": {
+    "earth": 120,
+    "fire": 120,
+    "ice": 120,
+    "nil": 120,
+    "spirit": 120,
+    "wind": 120
+  },
+  "out": "nova_arcana:pristine-diamond",
+  "outCount": 2,
+  "outData": {}
+}

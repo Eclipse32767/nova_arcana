@@ -2,10 +2,14 @@ package kit.nova_arcana
 
 
 import kit.nova_arcana.entities.*
+import kit.nova_arcana.fx.OutlineEffects
+import kit.nova_arcana.fx.RingEffects
+import kit.nova_arcana.fx.WispTrailEffects
 import kit.nova_arcana.items.WandRank
 import kit.nova_arcana.items.mkRank
 import kit.nova_arcana.mixin.InvAccessor
 import kit.nova_arcana.spells.*
+import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
@@ -90,50 +94,25 @@ enum class SpellCastResult {
     SUCCESS
 }
 
-fun excavateParticle(s0: Float, s1: Float): WorldParticleBuilder {
-    val startCol = Color(1, 153, 1)
-    val edCol = Color(9, 249, 149)
-    val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
-    spawner.scaleData = GenericParticleData.create(s0, s1).build()
-    spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
-    spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-    spawner.setLifetime(40)
-    spawner.enableNoClip()
-    return spawner
+fun excavateParticle(s0: Float, pos: BlockPos, st: BlockState, density: Int): OutlineEffects {
+    val fx = OutlineEffects(Color(1, 153, 1), Color(9, 249, 149), density, 40, s0, st, pos)
+    return fx
 }
-fun supportParticle(s0: Float, s1: Float): WorldParticleBuilder {
-    val startCol = Color(5, 104, 186)
-    val edCol = Color(93, 239, 252)
-    val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
-    spawner.scaleData = GenericParticleData.create(s0, s1).build()
-    spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
-    spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-    spawner.setLifetime(40)
-    spawner.enableNoClip()
-    return spawner
+
+fun supportParticle(s0: Float, pos: BlockPos, st: BlockState, density: Int): OutlineEffects {
+    val fx = OutlineEffects(Color(5, 104, 186), Color(93, 239, 252), density, 40, s0, st, pos)
+    return fx
 }
-fun dashParticle(s0: Float, s1: Float): WorldParticleBuilder {
-    val startCol = Color(252, 242, 47)
-    val edCol = Color(252, 249, 184)
-    val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
-    spawner.scaleData = GenericParticleData.create(s0, s1).build()
-    spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
-    spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-    spawner.setLifetime(40)
-    //spawner.multiplyGravity(1.0f)Text
-    spawner.enableNoClip()
-    return spawner
+
+fun dashParticle(s0: Float, pos: Vec3d): WispTrailEffects {
+    val fx = WispTrailEffects(Color(252, 242, 47), Color(252, 249, 184), pos)
+    fx.startScale = s0
+    return fx
 }
-fun recoverParticle(s0: Float, s1: Float): WorldParticleBuilder {
-    val startCol = Color(246, 236, 236)
-    val edCol = Color(255, 197, 197)
-    val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
-    spawner.scaleData = GenericParticleData.create(s0, s1).build()
-    spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
-    spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-    spawner.setLifetime(40)
-    spawner.enableNoClip()
-    return spawner
+fun recoverParticle(s0: Float, pos: Vec3d, rad: Double, density: Int): RingEffects {
+    val fx = RingEffects(Color(246, 236, 236), Color(255, 197, 197), 40, density, s0, pos, rad)
+    fx.motion = Vec3d(0.0, 0.1, 0.0)
+    return fx
 }
 fun launchPlayer(user: PlayerEntity, pitch: Float, yaw: Float, roll: Float, speed: Float, divergence: Float) {
     val vec3d = user.velocity
@@ -198,16 +177,11 @@ fun regSpells() {
         if (h.mana >= cost) {
         } else return@run SpellCastResult.FAIL
         val targets = world.getOtherEntities(null, Box.of(user.pos, area, area, area))
-        val startCol = Color(100, 0, 100)
-        val edCol = Color(0, 100, 200)
-        val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
-        spawner.scaleData = GenericParticleData.create(0.5f, 0F).build()
-        spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
-        spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-        spawner.setLifetime(40)
-        spawner.setRandomMotion(0.0, 0.1, 0.0)
-        spawner.enableNoClip()
-        spawner.repeatCircle(world, user.x, user.y, user.z, area/2, 20)
+        if (world.isClient) {
+            val fx = RingEffects(Color(100, 0, 100), Color(0, 100, 200), 40, 20, 0.5f, user.pos, area/2)
+            fx.motion = Vec3d(0.0, 0.1, 0.0)
+            fx.spawn(world)
+        }
         for (target in targets) {
             if (target is LivingEntity) {
                 if (target.getStatusEffect(ModEffects.FAIR_GROUND) != null) continue

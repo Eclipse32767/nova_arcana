@@ -1,5 +1,7 @@
 package kit.nova_arcana.entities
 
+import kit.nova_arcana.fx.OutlineEffects
+import kit.nova_arcana.fx.WispTrailEffects
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity
@@ -16,6 +18,8 @@ import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData
 import java.awt.Color
 
 class PlacementWisp(type: EntityType<PlacementWisp>, world: World, val dest: BlockPos, val block: BlockState): ThrownItemEntity(type, world) {
+    val col1 = Color(5, 104, 186)
+    val col2 = Color(93, 239, 252)
     val logger = LoggerFactory.getLogger("nova_arcana")
     override fun getDefaultItem(): Item {
         return Items.AIR
@@ -24,42 +28,17 @@ class PlacementWisp(type: EntityType<PlacementWisp>, world: World, val dest: Blo
         val diff = dest.toCenterPos() - pos
         this.setVelocity(diff.x, diff.y, diff.z, 0.5F, 0.0F)
     }
-    val particleBuilder: WorldParticleBuilder
-        get() {
-            val startCol = Color(5, 104, 186)
-            val edCol = Color(93, 239, 252)
-            val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
-            spawner.scaleData = GenericParticleData.create(0.75f, 0.0f).build()
-            spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
-            spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-            spawner.setLifetime(40)
-            spawner.enableNoClip()
-            return spawner
-        }
-    val outlineBuilder: WorldParticleBuilder
-        get() {
-            val startCol = Color(5, 104, 186)
-            val edCol = Color(93, 239, 252)
-            val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
-            spawner.scaleData = GenericParticleData.create(0.25f, 0.0f).build()
-            spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
-            spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-            spawner.setLifetime(40)
-            spawner.enableNoClip()
-            return spawner
-        }
-    fun spawnParticle() {
-        particleBuilder.spawn(world, x, y, z)
-    }
     override fun tick() {
         super.tick()
         //mvTowardTrgt()
-        spawnParticle()
+        if (world.isClient) {
+            WispTrailEffects(false, col1, col2, 0.75f, 40, pos).spawn(world)
+        }
         if (pos.distanceTo(dest.toCenterPos()) < 1) {
             if (!world.isClient) {
                 world.setBlockState(dest, block)
             } else {
-                for (i in 0..5) particleBuilder.createBlockOutline(world, dest, block)
+                OutlineEffects(col1, col2, 5, 40, 0.75f, world.getBlockState(dest), dest).spawn(world)
             }
 
             //logger.atInfo().log(dest.toString())

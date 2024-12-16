@@ -1,5 +1,7 @@
 package kit.nova_arcana.entities
 
+import kit.nova_arcana.fx.ManaLineEffects
+import kit.nova_arcana.fx.WispTrailEffects
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.data.DataTracker
@@ -35,14 +37,10 @@ class InfusionParticleLine(type: EntityType<InfusionParticleLine>, world: World,
         get() = dataTracker.get(START_SCALE)
         set(value) = dataTracker.set(START_SCALE, value)
     var lifespan = 2000
-    fun particleSpawner(): WorldParticleBuilder {
-        val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
-        spawner.scaleData = GenericParticleData.create(startScale, 0.0f).build()
-        spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
-        spawner.colorData = ColorParticleData.create(color1, color2).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-        spawner.setLifetime(40)
-        spawner.enableNoClip()
-        return spawner
+    fun particleSpawner(): WispTrailEffects {
+        val fx = WispTrailEffects(color1, color2, pos)
+        fx.startScale = startScale
+        return fx
     }
     override fun getDefaultItem(): Item {
         return Items.AIR
@@ -57,7 +55,7 @@ class InfusionParticleLine(type: EntityType<InfusionParticleLine>, world: World,
         //mvTowardTrgt()
         //val logger = LoggerFactory.getLogger("hhhh")
         //logger.atInfo().log("${velocity.x}, ${velocity.y}, ${velocity.z}")
-        particleSpawner().spawn(world, x, y, z)
+        if (world.isClient) particleSpawner().spawn(world)
         lifespan--
         if (lifespan <= 0) kill()
         if (pos.distanceTo(dest) < 0.5) kill()

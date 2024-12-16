@@ -74,6 +74,21 @@ class RecipeGen(output: DataOutput) : FabricRecipeProvider(output as FabricDataO
 			it.setOutItm(Items.ENCHANTED_GOLDEN_APPLE)
 			it.setAllCost(40)
 		}
+		mkInfusion(exp) {
+			it.addInput(2, Items.DIAMOND)
+			it.name = "nova_arcana:infusion/pristine_diamond"
+			it.setCentral(ModItems.pristineDiamond)
+			it.setOutItm(ModItems.pristineDiamond)
+			it.setOutCount(2)
+			it.setAllCost(120)
+		}
+		mkInfusion(exp) {
+			it.addInput(2, Items.STRIPPED_WARPED_STEM)
+			it.name = "nova_arcana:infusion/warped_core"
+			it.setCentral(Items.GOLD_INGOT)
+			it.setOutStk(Prefabs.CORE_WARPED)
+			it.setAllCost(40)
+		}
 		mkDeconstruction(exp) {
 			it.setInput(Items.EMERALD)
 			it.setOutput(ManaFilter.EARTH, 20)
@@ -114,6 +129,7 @@ class InfusionBuilder {
 	private val inputs: MutableList<Ingredient> = mutableListOf()
 	private var out: ItemStack = ItemStack.EMPTY
 	private var manaCost: ManaOutputs = ManaOutputs(0, 0, 0, 0, 0, 0)
+	var name: String? = null
 	fun addInputs(vararg v: Ingredient) {
 		for (i in v) inputs += i
 	}
@@ -138,6 +154,9 @@ class InfusionBuilder {
 	fun setOutCount(count: Int) {
 		out.count = count
 	}
+	fun setOutStk(item: ItemStack) {
+		out = item
+	}
 	fun alterOutNbt(fn: (NbtCompound) -> Unit) {
 		fn(out.orCreateNbt)
 	}
@@ -148,11 +167,13 @@ class InfusionBuilder {
 		central = Ingredient.ofItems(v)
 	}
 	fun build(): InfusionMaker {
-		return InfusionMaker(central!!, inputs, out, manaCost)
+		val id = Registries.ITEM.getId(out.item)
+		val fallback = Identifier(id.namespace, "infusion/"+id.path)
+		return InfusionMaker(central!!, inputs, out, manaCost, if (name == null) fallback else Identifier(name))
 	}
 }
 
-class InfusionMaker(val central: Ingredient, val inputs: List<Ingredient>, val out: ItemStack, val manaCost: ManaOutputs): RecipeJsonProvider {
+class InfusionMaker(val central: Ingredient, val inputs: List<Ingredient>, val out: ItemStack, val manaCost: ManaOutputs, val name: Identifier): RecipeJsonProvider {
 	override fun serialize(json: JsonObject) {
 		//if you feed me any of these inputs, go fuck yourself
 		if (inputs.isEmpty()) throw IllegalStateException()
@@ -177,8 +198,7 @@ class InfusionMaker(val central: Ingredient, val inputs: List<Ingredient>, val o
 	}
 
 	override fun getRecipeId(): Identifier {
-		val id = Registries.ITEM.getId(out.item)
-		return Identifier(id.namespace, "infusion/"+id.path)
+		return name
 	}
 
 	override fun getSerializer(): RecipeSerializer<*> {

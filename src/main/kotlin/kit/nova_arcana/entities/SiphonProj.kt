@@ -2,6 +2,7 @@ package kit.nova_arcana.entities
 
 import kit.nova_arcana.ManaHandle
 import kit.nova_arcana.ModEntities
+import kit.nova_arcana.fx.WispTrailEffects
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
@@ -38,17 +39,12 @@ class DrainBeam: ThrownItemEntity {
     }
 
     private fun spawnParticle() {
-        val startCol = Color(100, 0, 100)
-        val edCol = Color(0, 100, 200)
-        val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
-        spawner.scaleData = GenericParticleData.create(0.5f, 0F).build()
-        spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
-        spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-        //spawner.spinData = SpinParticleData.create(0.2f, 0.4f).setSpinOffset((world.time * 0.2f) % 6.28f).setEasing(Easing.QUARTIC_IN).build()
-        spawner.setLifetime(40)
-        spawner.addMotion(0.0, 0.01, 0.0)
-        spawner.enableNoClip()
-        spawner.spawn(world, pos.x, pos.y, pos.z)
+        if (world.isClient) {
+            val fx = WispTrailEffects(Color(100, 0, 100), Color(0, 100, 200), pos)
+            fx.startScale = 0.5f
+            fx.motion = Vec3d(0.0, 0.01, 0.0)
+            fx.spawn(world)
+        }
     }
 
     override fun getDefaultItem(): Item {
@@ -105,17 +101,12 @@ class SiphonHeal: ThrownItemEntity {
     }
 
     private fun spawnParticle() {
-        val startCol = Color(246, 236, 236)
-        val edCol = Color(255, 197, 197)
-        val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
-        spawner.scaleData = GenericParticleData.create(0.5f, 0F).build()
-        spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
-        spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-        //spawner.spinData = SpinParticleData.create(0.2f, 0.4f).setSpinOffset((world.time * 0.2f) % 6.28f).setEasing(Easing.QUARTIC_IN).build()
-        spawner.setLifetime(40)
-        spawner.addMotion(0.0, 0.01, 0.0)
-        spawner.enableNoClip()
-        spawner.spawn(world, pos.x, pos.y, pos.z)
+        if (world.isClient) {
+            val fx = WispTrailEffects(Color(246, 236, 236), Color(255, 197, 197), pos)
+            fx.startScale = 0.5f
+            fx.motion = Vec3d(0.0, 0.01, 0.0)
+            fx.spawn(world)
+        }
     }
 
     override fun getDefaultItem(): Item {

@@ -40,10 +40,7 @@ fun regExcavate(logger: Logger) {
                 val hardness = world.getBlockState(blockPos).block.hardness
                 if (hardness > 0 && hardness < maxHardness) {
                     if (world.isClient) {
-                        val spawner = excavateParticle(0.25f, 0.0f)
-                        for (i in (0..5)) {
-                            spawner.createBlockOutline(world, blockPos, world.getBlockState(blockPos))
-                        }
+                        excavateParticle(0.25f, blockPos, world.getBlockState(blockPos), 5).spawn(world)
                         return@run SpellCastResult.SUCCESS
                     }
 
@@ -72,7 +69,6 @@ fun regExcavate(logger: Logger) {
         val cast = entity.raycast(reach, 0.0f, false)
         if (cast.type != HitResult.Type.BLOCK) return@run
         val hit = cast as BlockHitResult
-        val spawner = excavateParticle(0.10f, 0.0f)
-        spawner.createBlockOutline(world, hit.blockPos, world.getBlockState(hit.blockPos))
+        if (world.isClient) excavateParticle(0.10f, hit.blockPos, world.getBlockState(hit.blockPos), 0).spawn(world)
     }}
 }

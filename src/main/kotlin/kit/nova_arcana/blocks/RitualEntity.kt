@@ -49,17 +49,6 @@ class RitualBlockEntity(pos: BlockPos, state: BlockState): BlockEntity(ModBlockE
         @JvmStatic
         fun tick(world: World, pos: BlockPos, state: BlockState, entity: RitualBlockEntity) {
             for (e in world.getOtherEntities(null, Box.of(pos.toCenterPos(), 20.0, 20.0, 20.0))) {
-                val startCol = Color(100, 0, 100)
-                val edCol = Color(0, 100, 200)
-                val spawner = WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
-                spawner.scaleData = GenericParticleData.create(0.1f, 0F).build()
-                spawner.transparencyData = GenericParticleData.create(0.75F, 0.25F).build()
-                spawner.colorData = ColorParticleData.create(startCol, edCol).setCoefficient(1.4f).setEasing(Easing.BOUNCE_IN_OUT).build()
-                //spawner.spinData = SpinParticleData.create(0.2f, 0.4f).setSpinOffset((world.time * 0.2f) % 6.28f).setEasing(Easing.QUARTIC_IN).build()
-                spawner.setLifetime(40)
-                //spawner.setRandomMotion(0.0, 0.1, 0.0)
-                spawner.enableNoClip()
-                spawner.spawnLine(world, pos.toCenterPos(), e.pos)
                 if (e is LivingEntity) {
                     e.addStatusEffect(StatusEffectInstance(ModEffects.FAIR_GROUND, 10, 0))
                 }

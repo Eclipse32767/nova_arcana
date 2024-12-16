@@ -19,6 +19,7 @@ import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer
 import net.minecraft.client.util.InputUtil
+import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Identifier
@@ -50,7 +51,7 @@ object TemplateModClient : ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.BARRIER, RenderLayer.getCutout())
 
 		ModelLoadingPlugin.register {ctx -> run {
-			val idStrs = listOf("item/wand-core-basic", "item/wand-claw-basic", "item/wand-orb-basic", "item/wand-gem-emerald", "item/ruby", "item/amber", "item/pristine-diamond", "item/mat-blank",
+			val idStrs = listOf("item/wand-core-basic", "item/wand-core-warped", "item/wand-claw-basic", "item/wand-orb-basic", "item/wand-gem-emerald", "item/gay-gem", "item/ruby", "item/amber", "item/pristine-diamond", "item/mat-blank",
 				"item/mat-pwr", "item/mat-eff", "item/mat-area", "item/mat-flame", "item/mat-siphon", "item/mat-excavate",
 				"item/mat-support", "item/mat-dash", "item/mat-recovery", "item/mana-fire", "item/mana-ice", "item/mana-earth", "item/mana-wind", "item/mana-void", "item/mana-spirit")
 			for (id in idStrs) {
@@ -68,10 +69,11 @@ object TemplateModClient : ClientModInitializer {
 		BlockEntityRendererFactories.register(ModBlockEntities.PEDESTAL_TYPE) { PedestalRenderer(it) }
 		BlockEntityRendererFactories.register(ModBlockEntities.MANA_VESSEL_TYPE) {VesselRenderer(it)}
 		val swapSpell = KeyBindingHelper.registerKeyBinding(KeyBinding("key.nova_arcana.swap_spell", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, "category.nova_arcana.spellcasting"))
-		ClientTickEvents.END_CLIENT_TICK.register { client ->
+		ClientTickEvents.START_CLIENT_TICK.register { client ->
 			run {
 				try {
 					if (swapSpell.wasPressed()) {
+						logger.atInfo().log("key was pressed")
 						val world = client.world
 						world?.playSound(
 							client.player,

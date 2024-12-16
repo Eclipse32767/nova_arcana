@@ -31,7 +31,7 @@ fun regDash(logger: Logger) {
                 val deviationX = (-10..10).random().toDouble() / 10
                 val deviationY = (-10..10).random().toDouble() / 10 + 1
                 val deviationZ = (-10..10).random().toDouble() / 10
-                dashParticle(1.0f, 0.0f).spawn(world, user.x + deviationX, user.y + deviationY, user.z + deviationZ)
+                if (world.isClient) dashParticle(1.0f, user.pos.add(deviationX, deviationY, deviationZ)).spawn(world)
             }
             user.timeUntilRegen = inv
             (user as InvAccessor).lastDamageTaken = 20.0f

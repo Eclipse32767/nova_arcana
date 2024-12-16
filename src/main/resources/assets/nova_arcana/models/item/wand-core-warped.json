@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "nova_arcana:item/wand-core-basic",
-		"particle": "nova_arcana:item/wand-core-basic"
+		"0": "nova_arcana:item/wand-core-warped",
+		"particle": "nova_arcana:item/wand-core-warped"
 	},
 	"elements": [
 		{
@@ -11,10 +11,10 @@
 			"to": [9, 19, 9],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 6, 8]},
 			"faces": {
-				"north": {"uv": [0, 1, 1, 14], "texture": "#0"},
-				"east": {"uv": [0, 1, 1, 14], "texture": "#0"},
-				"south": {"uv": [0, 1, 1, 14], "texture": "#0"},
-				"west": {"uv": [0, 1, 1, 14], "texture": "#0"},
+				"north": {"uv": [1, 1, 2, 14], "texture": "#0"},
+				"east": {"uv": [1, 1, 2, 14], "texture": "#0"},
+				"south": {"uv": [1, 1, 2, 14], "texture": "#0"},
+				"west": {"uv": [1, 1, 2, 14], "texture": "#0"},
 				"up": {"uv": [2, 1, 1, 0], "texture": "#0"},
 				"down": {"uv": [2, 0, 1, 1], "texture": "#0"}
 			}

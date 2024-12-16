@@ -1,0 +1,30 @@
+{
+  "type": "nova_arcana:infusion",
+  "central": {
+    "item": "minecraft:gold_ingot"
+  },
+  "inputs": [
+    {
+      "item": "minecraft:stripped_warped_stem"
+    },
+    {
+      "item": "minecraft:stripped_warped_stem"
+    }
+  ],
+  "manaInputs": {
+    "earth": 40,
+    "fire": 40,
+    "ice": 40,
+    "nil": 40,
+    "spirit": 40,
+    "wind": 40
+  },
+  "out": "nova_arcana:wand-core",
+  "outCount": 1,
+  "outData": {
+    "model": "nova_arcana:item/wand-core-warped",
+    "name": "Warped Staff Core",
+    "slots_f": 0,
+    "slots_s": 6
+  }
+}

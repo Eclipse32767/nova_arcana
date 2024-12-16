@@ -34,11 +34,7 @@ fun regSupport(logger: Logger) {
                     dest,
                     ModBlocks.SUPPORT_BLOCK.defaultState
                 )
-                for (i in 0..5) supportParticle(0.25f, 0.0f).createBlockOutline(
-                    world,
-                    dest,
-                    ModBlocks.SUPPORT_BLOCK.defaultState
-                )
+                if (world.isClient) supportParticle(0.25f, dest, ModBlocks.SUPPORT_BLOCK.defaultState, 5).spawn(world)
                 h.mana -= cost
                 h.syncMana()
                 return@run SpellCastResult.SUCCESS
@@ -51,6 +47,6 @@ fun regSupport(logger: Logger) {
         if (cast.type != HitResult.Type.BLOCK) return@run
         val hit = cast as BlockHitResult
         val dest = hit.blockPos.offset(hit.side)
-        supportParticle(0.10f, 0.0f).createBlockOutline(world, dest, ModBlocks.SUPPORT_BLOCK.defaultState)
+        if (world.isClient) supportParticle(0.10f, dest, ModBlocks.SUPPORT_BLOCK.defaultState, 0).spawn(world)
     }}
 }
