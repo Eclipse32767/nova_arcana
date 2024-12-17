@@ -1,0 +1,45 @@
+{
+  "type": "nova_arcana:infusion",
+  "central": {
+    "item": "nova_arcana:pristine-diamond"
+  },
+  "inputs": [
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "item": "minecraft:golden_sword"
+    },
+    {
+      "item": "minecraft:golden_sword"
+    },
+    {
+      "item": "minecraft:glistering_melon_slice"
+    },
+    {
+      "item": "minecraft:glistering_melon_slice"
+    }
+  ],
+  "manaInputs": {
+    "earth": 0,
+    "fire": 0,
+    "ice": 0,
+    "nil": 80,
+    "spirit": 40,
+    "wind": 0
+  },
+  "out": "nova_arcana:materia",
+  "outCount": 1,
+  "outData": {
+    "spell": "nova_arcana:spell/malevolence"
+  }
+}

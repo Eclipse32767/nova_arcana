@@ -1,0 +1,33 @@
+{
+  "type": "nova_arcana:infusion",
+  "central": {
+    "item": "minecraft:prismarine_shard"
+  },
+  "inputs": [
+    {
+      "item": "minecraft:snowball"
+    },
+    {
+      "item": "minecraft:snowball"
+    },
+    {
+      "item": "minecraft:snowball"
+    },
+    {
+      "item": "minecraft:snowball"
+    }
+  ],
+  "manaInputs": {
+    "earth": 0,
+    "fire": 0,
+    "ice": 30,
+    "nil": 0,
+    "spirit": 0,
+    "wind": 0
+  },
+  "out": "nova_arcana:materia",
+  "outCount": 1,
+  "outData": {
+    "spell": "nova_arcana:spell/support"
+  }
+}

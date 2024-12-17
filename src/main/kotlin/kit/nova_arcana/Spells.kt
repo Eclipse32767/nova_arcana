@@ -118,6 +118,7 @@ fun launchPlayer(user: PlayerEntity, pitch: Float, yaw: Float, roll: Float, spee
     val vec3d = user.velocity
     val f = -MathHelper.sin(yaw * (Math.PI / 180.0).toFloat()) * MathHelper.cos(pitch * (Math.PI / 180.0).toFloat())
     val g = -MathHelper.sin((pitch + roll) * (Math.PI / 180.0).toFloat())
+
     val h = MathHelper.cos(yaw * (Math.PI / 180.0).toFloat()) * MathHelper.cos(pitch * (Math.PI / 180.0).toFloat())
     playerProjectile(user, f.toDouble(), g.toDouble(), h.toDouble(), speed, divergence)
 
@@ -163,8 +164,8 @@ fun regSpells() {
     regMalevolence(logger)
 
 
-    registerSpell(Identifier("nova_arcana:spell/overclock"), Text.literal("Overclock"), Identifier("nova_arcana:item/mat-blank")) { world, user, hand, mod -> run {
-        val cost = if (mod == SpellMod.EFF) 80 else 100
+    registerSpell(Identifier("nova_arcana:spell/overclock"), Text.literal("Overclock"), Identifier("nova_arcana:item/mat-overclock")) { world, user, hand, mod -> run {
+        val cost = if (mod == SpellMod.EFF) 40 else 60
         val pwr = if (mod == SpellMod.PWR) 2 else 1
         val area = if (mod == SpellMod.AREA) 6.0 else 3.0
         val h = ManaHandle(user)
@@ -194,12 +195,26 @@ fun regSpells() {
         return@run SpellCastResult.SUCCESS
     }}
     registerSpell("nova_arcana:spell/magic-missile", "Magic Missile", "nova_arcana:item/mat-blank") {world, user, hand, mod -> run {
+        val cost = if (mod == SpellMod.EFF) 40 else 60
+        val h = ManaHandle(user)
+        val stk = user.getStackInHand(hand)
+        val rank = mkRank(stk.orCreateNbt.getInt("tier"))
+        if (!rank.canCast(WandRank.TIER1)) {
+            if (world.isClient) user.sendMessage(Text.literal("The Staff appears incompatible with this spell. How odd."))
+            return@run SpellCastResult.FAIL
+        }
+        if (h.mana >= cost) {
+        } else return@run SpellCastResult.FAIL
         if (world.isClient) return@run SpellCastResult.SUCCESS
         val bolt = MagicMissile(ModEntities.MagicMissileType, user, world)
         bolt.setNoGravity(true)
         bolt.setPosition(user.eyePos)
         bolt.setVelocity(user, user.pitch, user.yaw, 0.0F, 0.5F, 0F)
+        bolt.dmg = if(mod == SpellMod.PWR) 6f else 3f
+        bolt.lifespan = if(mod == SpellMod.AREA) 300 else 150
         world.spawnEntity(bolt)
+        h.mana -= cost
+        h.syncMana()
         return@run SpellCastResult.SUCCESS
     }}
 }

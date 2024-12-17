@@ -25,7 +25,7 @@ class MagicMissile: ThrownItemEntity {
     constructor(type: EntityType<MagicMissile>, owner: LivingEntity, world: World): super(type, owner, world)
     override fun getDefaultItem(): Item = Items.AIR
     var lifespan = 300
-    val dmg = 3f
+    var dmg = 3f
     val logger = LoggerFactory.getLogger("magic-missile")
     override fun tick() {
         super.tick()

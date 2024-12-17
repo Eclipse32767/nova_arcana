@@ -9,8 +9,8 @@ import net.minecraft.util.Identifier
 import org.slf4j.Logger
 
 fun regImmolate(logger: Logger) {
-    registerSpell(Identifier("nova_arcana:spell/immolate"), Text.literal("Immolate"), Identifier("nova_arcana:item/mat-blank")) { world, user, hand, mod -> run {
-        val cost = if (mod == SpellMod.EFF) 60 else 80
+    registerSpell(Identifier("nova_arcana:spell/immolate"), Text.literal("Immolate"), Identifier("nova_arcana:item/mat-immolate")) { world, user, hand, mod -> run {
+        val cost = if (mod == SpellMod.EFF) 30 else 50
         val reach = if (mod == SpellMod.AREA) 40 else 20
         val divergence = if (mod == SpellMod.AREA) 0f else 10f
         val damage = if (mod == SpellMod.PWR) 3f else 1f

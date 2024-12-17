@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:stone"
+    },
+    "B": {
+      "item": "minecraft:glass"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "BAB",
+    "AAA"
+  ],
+  "result": {
+    "item": "nova_arcana:deconstructor"
+  },
+  "show_notification": true
+}

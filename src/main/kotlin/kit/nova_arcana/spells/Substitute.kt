@@ -21,7 +21,7 @@ import org.slf4j.Logger
 import team.lodestar.lodestone.systems.client.ClientTickCounter
 
 fun regSubstitute(logger: Logger) {
-    registerSpell(Identifier("nova_arcana:spell/substitute"), Text.literal("Substitute"), Identifier("nova_arcana:item/mat-blank")) { world, user, hand, mod -> run {
+    registerSpell(Identifier("nova_arcana:spell/substitute"), Text.literal("Substitute"), Identifier("nova_arcana:item/mat-substitute")) { world, user, hand, mod -> run {
         val cost = if (mod == SpellMod.EFF) 10 else if (mod == SpellMod.PWR) 100 else 20
         val reach = if (mod == SpellMod.AREA) 20.0 else 10.0
         val count = if (mod == SpellMod.PWR) 1 else 0

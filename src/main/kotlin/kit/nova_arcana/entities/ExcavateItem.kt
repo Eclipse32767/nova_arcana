@@ -56,12 +56,14 @@ class ExcavateItem: ThrownItemEntity {
         super.tick()
         if (this.world.isClient) {
             WispTrailEffects(false, Color(1, 153, 1), Color(9, 249, 149), 0.5f, 40, pos).spawn(world)
-            return
+        } else {
+            lifespan++
+            if (lifespan > 500) {
+                drop()
+                return
+            }
         }
-        lifespan++
-        if (lifespan > 500) {
-            drop()
-        }
+
         if (owner != null) {
             var target = owner!!.pos
             target = target.add(0.0, 1.0, 0.0)

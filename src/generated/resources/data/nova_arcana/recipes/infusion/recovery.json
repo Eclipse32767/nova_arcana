@@ -1,0 +1,33 @@
+{
+  "type": "nova_arcana:infusion",
+  "central": {
+    "item": "minecraft:quartz"
+  },
+  "inputs": [
+    {
+      "item": "minecraft:bone_meal"
+    },
+    {
+      "item": "minecraft:bone_meal"
+    },
+    {
+      "item": "minecraft:bone_meal"
+    },
+    {
+      "item": "minecraft:bone_meal"
+    }
+  ],
+  "manaInputs": {
+    "earth": 0,
+    "fire": 0,
+    "ice": 0,
+    "nil": 0,
+    "spirit": 30,
+    "wind": 0
+  },
+  "out": "nova_arcana:materia",
+  "outCount": 1,
+  "outData": {
+    "spell": "nova_arcana:spell/recovery"
+  }
+}

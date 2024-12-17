@@ -55,7 +55,6 @@ class InfusionStone(settings: FabricBlockSettings): BlockWithEntity(settings), B
     override fun createBlockEntity(pos: BlockPos, state: BlockState): BlockEntity {
         return InfusionStoneEntity(pos, state)
     }
-
     override fun getRenderType(state: BlockState?): BlockRenderType {
         return BlockRenderType.MODEL
     }
@@ -144,8 +143,17 @@ class InfusionStoneEntity(pos: BlockPos, state: BlockState) : BlockEntity(ModBlo
                         break
                     }
                 } else {
-                    val neededT = targetRecipe.manaIn[0].first
+                    var neededT = targetRecipe.manaIn[0].first
                     var neededV = targetRecipe.manaIn[0].second
+                    while (neededV == 0) {
+                        try {
+                            this.targetRecipe!!.manaIn.removeAt(0)
+                            neededT = this.targetRecipe!!.manaIn[0].first
+                            neededV = this.targetRecipe!!.manaIn[0].second
+                        } catch (_: Exception) {
+                            break
+                        }
+                    }
                     for (pool in manaPool) {
                         val amtTaken = pool.sub(neededT, neededV)
                         neededV -= amtTaken
@@ -170,8 +178,10 @@ class InfusionStoneEntity(pos: BlockPos, state: BlockState) : BlockEntity(ModBlo
                             world.spawnEntity(line2)
                         }
                     }
-                    targetRecipe.manaIn[0] = Pair(neededT, neededV)
-                    if (neededV <= 0) this.targetRecipe!!.manaIn.removeAt(0)
+                    try {
+                        this.targetRecipe!!.manaIn[0] = Pair(neededT, neededV)
+                        if (neededV <= 0) this.targetRecipe!!.manaIn.removeAt(0)
+                    } catch (_: Exception) {}
                     if (neededV > 0) logger.atInfo().log("insufficient mana")
                 }
             }

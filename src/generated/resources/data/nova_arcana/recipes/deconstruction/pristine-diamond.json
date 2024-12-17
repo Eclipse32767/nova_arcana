@@ -1,0 +1,14 @@
+{
+  "type": "nova_arcana:deconstruction",
+  "ingredient": {
+    "item": "nova_arcana:pristine-diamond"
+  },
+  "output": {
+    "earth": 60,
+    "fire": 60,
+    "ice": 60,
+    "nil": 60,
+    "spirit": 60,
+    "wind": 60
+  }
+}

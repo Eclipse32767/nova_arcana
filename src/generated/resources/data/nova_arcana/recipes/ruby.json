@@ -3,15 +3,18 @@
   "category": "misc",
   "key": {
     "A": {
-      "item": "minecraft:blaze_powder"
+      "item": "minecraft:coal"
     },
     "B": {
       "item": "minecraft:netherrack"
+    },
+    "C": {
+      "item": "minecraft:coal_block"
     }
   },
   "pattern": [
     " A ",
-    "AAA",
+    "ACA",
     " B "
   ],
   "result": {

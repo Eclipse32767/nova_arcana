@@ -53,7 +53,8 @@ object TemplateModClient : ClientModInitializer {
 		ModelLoadingPlugin.register {ctx -> run {
 			val idStrs = listOf("item/wand-core-basic", "item/wand-core-warped", "item/wand-claw-basic", "item/wand-orb-basic", "item/wand-gem-emerald", "item/gay-gem", "item/ruby", "item/amber", "item/pristine-diamond", "item/mat-blank",
 				"item/mat-pwr", "item/mat-eff", "item/mat-area", "item/mat-flame", "item/mat-siphon", "item/mat-excavate",
-				"item/mat-support", "item/mat-dash", "item/mat-recovery", "item/mana-fire", "item/mana-ice", "item/mana-earth", "item/mana-wind", "item/mana-void", "item/mana-spirit")
+				"item/mat-support", "item/mat-dash", "item/mat-recovery", "item/mana-fire", "item/mana-ice", "item/mana-earth", "item/mana-wind", "item/mana-void", "item/mana-spirit",
+				"item/mat-substitute", "item/mat-immolate", "item/mat-malevolence", "item/mat-overclock")
 			for (id in idStrs) {
 				ctx.addModels(Identifier("nova_arcana:$id"))
 			}

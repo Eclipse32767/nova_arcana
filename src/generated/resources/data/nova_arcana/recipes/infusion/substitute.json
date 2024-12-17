@@ -1,0 +1,45 @@
+{
+  "type": "nova_arcana:infusion",
+  "central": {
+    "item": "nova_arcana:pristine-diamond"
+  },
+  "inputs": [
+    {
+      "item": "minecraft:stone_pickaxe"
+    },
+    {
+      "item": "minecraft:stone_pickaxe"
+    },
+    {
+      "item": "minecraft:stone_pickaxe"
+    },
+    {
+      "item": "minecraft:stone_pickaxe"
+    },
+    {
+      "item": "minecraft:snowball"
+    },
+    {
+      "item": "minecraft:snowball"
+    },
+    {
+      "item": "minecraft:snowball"
+    },
+    {
+      "item": "minecraft:snowball"
+    }
+  ],
+  "manaInputs": {
+    "earth": 60,
+    "fire": 0,
+    "ice": 60,
+    "nil": 0,
+    "spirit": 0,
+    "wind": 0
+  },
+  "out": "nova_arcana:materia",
+  "outCount": 1,
+  "outData": {
+    "spell": "nova_arcana:spell/substitute"
+  }
+}

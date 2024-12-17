@@ -26,7 +26,8 @@ object ModItems {
     val alchRuby = register("ruby", Item(FabricItemSettings()))
     val amber = register("amber", Item(FabricItemSettings()))
     val pristineDiamond = register("pristine-diamond", Item(FabricItemSettings()))
-    val MatSurrogates = object  {
+    val crystalChisel = register("crystal-chisel", Item(FabricItemSettings()))
+    object MatSurrogates {
         val effMat = register("mat-eff", SurrogateItem(mkModMateria(SpellMod.EFF, "")))
         val pwrMat = register("mat-pwr", SurrogateItem(mkModMateria(SpellMod.PWR, "")))
         val areaMat = register("mat-area", SurrogateItem(mkModMateria(SpellMod.AREA, "")))
@@ -37,20 +38,22 @@ object ModItems {
         val dashMat = register("mat-dash", SurrogateItem(matStk("dash")))
         val recoveryMat = register("mat-recovery", SurrogateItem(matStk("recovery")))
     }
-    val CoreSurrogates = object  {
+    object CoreSurrogates  {
         val coreBasic = register("wand-core-basic", SurrogateItem(Prefabs.CORE_OAK))
     }
-    val DecorSurrogates = object {
+    object DecorSurrogates {
         val decorClaw = register("wand-claw-basic", SurrogateItem(Prefabs.DECOR_CLAW_BASIC))
         val decorOrb = register("wand-orb-basic", SurrogateItem(Prefabs.DECOR_ORB_BASIC))
     }
-    val GemSurrogates = object {
+    object GemSurrogates {
         val gemEmerald = register("wand-gem-emerald", SurrogateItem(Prefabs.GEM_EMERALD))
         val gemRuby = register("wand-gem-ruby", SurrogateItem(Prefabs.GEM_RUBY))
         val gemPrismarine = register("wand-gem-prismarine", SurrogateItem(Prefabs.GEM_PRISMARINE))
         val gemAmber = register("wand-gem-amber", SurrogateItem(Prefabs.GEM_AMBER))
         val gemAmethyst = register("wand-gem-amethyst", SurrogateItem(Prefabs.GEM_AMETHYST))
         val gemQuartz = register("wand-gem-quartz", SurrogateItem(Prefabs.GEM_QUARTZ))
+        val gemDiamond = register("wand-gem-diamond", SurrogateItem(Prefabs.GEM_DIAMOND))
+        val gemPristine = register("wand-gem-pristine", SurrogateItem(Prefabs.GEM_PRISTINE))
     }
     val helm = register("cloak-helmet", CloakArmorItem(CloakArmorMaterial.INSTANCE, ArmorItem.Type.HELMET, FabricItemSettings().maxCount(1)))
     val chest = register("cloak-chestplate", CloakArmorItem(CloakArmorMaterial.INSTANCE, ArmorItem.Type.CHESTPLATE, FabricItemSettings().maxCount(1)))

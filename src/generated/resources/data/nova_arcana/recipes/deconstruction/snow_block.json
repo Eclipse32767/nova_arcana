@@ -1,0 +1,14 @@
+{
+  "type": "nova_arcana:deconstruction",
+  "ingredient": {
+    "item": "minecraft:snow_block"
+  },
+  "output": {
+    "earth": 0,
+    "fire": 0,
+    "ice": 1,
+    "nil": 0,
+    "spirit": 0,
+    "wind": 0
+  }
+}

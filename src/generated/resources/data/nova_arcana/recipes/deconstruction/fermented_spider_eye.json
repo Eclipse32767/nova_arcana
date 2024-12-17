@@ -1,0 +1,14 @@
+{
+  "type": "nova_arcana:deconstruction",
+  "ingredient": {
+    "item": "minecraft:fermented_spider_eye"
+  },
+  "output": {
+    "earth": 0,
+    "fire": 0,
+    "ice": 0,
+    "nil": 5,
+    "spirit": 0,
+    "wind": 0
+  }
+}

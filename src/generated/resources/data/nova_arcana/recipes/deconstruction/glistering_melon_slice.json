@@ -1,0 +1,14 @@
+{
+  "type": "nova_arcana:deconstruction",
+  "ingredient": {
+    "item": "minecraft:glistering_melon_slice"
+  },
+  "output": {
+    "earth": 0,
+    "fire": 0,
+    "ice": 0,
+    "nil": 0,
+    "spirit": 5,
+    "wind": 0
+  }
+}

@@ -24,8 +24,8 @@ import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData
 import java.awt.Color
 
 fun regMalevolence(logger: Logger) {
-    registerSpell(Identifier("nova_arcana:spell/malevolence"), Text.literal("Malevolence"), Identifier("nova_arcana:item/mat-blank")) { world, user, hand, mod -> run {
-        val cost = if (mod == SpellMod.EFF) 40 else 60
+    registerSpell(Identifier("nova_arcana:spell/malevolence"), Text.literal("Malevolence"), Identifier("nova_arcana:item/mat-malevolence")) { world, user, hand, mod -> run {
+        val cost = if (mod == SpellMod.EFF) 30 else 50
         val cap = if (mod == SpellMod.PWR) 20f else 10f
         val area = if (mod == SpellMod.AREA) 6.0 else 3.0
         val h = ManaHandle(user)

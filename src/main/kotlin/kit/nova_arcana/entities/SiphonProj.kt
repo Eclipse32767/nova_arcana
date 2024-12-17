@@ -118,26 +118,29 @@ class SiphonHeal: ThrownItemEntity {
     }
     override fun tick() {
         super.tick()
-        spawnParticle()
         if (this.world.isClient) {
-            return
-        }
-        lifespan++
-        if (lifespan > 500) {
-            kill()
+            spawnParticle()
+        } else {
+            lifespan++
+            if (lifespan > 500) {
+                kill()
+                return
+            }
         }
         if (owner != null) {
             var target = owner!!.pos
             target = target.add(0.0, 1.0, 0.0)
             mvTowardTrgt(target)
             if (this.pos.distanceTo(target) <= 1.0) {
-                if (owner is PlayerEntity) {
-                    val plr = owner as PlayerEntity
-                    val h = ManaHandle(plr)
-                    h.mana = minOf(h.mana+30, h.manacap)
-                    h.syncMana()
+                if (!world.isClient) {
+                    if (owner is PlayerEntity) {
+                        val plr = owner as PlayerEntity
+                        val h = ManaHandle(plr)
+                        h.mana = minOf(h.mana+30, h.manacap)
+                        h.syncMana()
+                    }
+                    kill()
                 }
-                kill()
             }
         }
     }

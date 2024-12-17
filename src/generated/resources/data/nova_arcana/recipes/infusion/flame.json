@@ -1,0 +1,33 @@
+{
+  "type": "nova_arcana:infusion",
+  "central": {
+    "item": "nova_arcana:ruby"
+  },
+  "inputs": [
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    }
+  ],
+  "manaInputs": {
+    "earth": 0,
+    "fire": 30,
+    "ice": 0,
+    "nil": 0,
+    "spirit": 0,
+    "wind": 0
+  },
+  "out": "nova_arcana:materia",
+  "outCount": 1,
+  "outData": {
+    "spell": "nova_arcana:spell/flame"
+  }
+}

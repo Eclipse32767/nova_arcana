@@ -27,6 +27,12 @@ object TemplateMod : ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 		val itms = ModItems
+		kotlin.run {
+			val g = ModItems.GemSurrogates
+			val d = ModItems.DecorSurrogates
+			val c = ModItems.CoreSurrogates
+			val m = ModItems.MatSurrogates
+		}
 		val entities = ModEntities
 		val recipes = Recipes
 		val blks = ModBlocks
