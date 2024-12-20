@@ -1,0 +1,22 @@
+{
+  "type": "nova_arcana:infusion",
+  "central": {
+    "item": "minecraft:lapis_lazuli"
+  },
+  "inputs": [
+    {
+      "item": "minecraft:emerald"
+    }
+  ],
+  "manaInputs": {
+    "earth": 20,
+    "fire": 0,
+    "ice": 0,
+    "nil": 0,
+    "spirit": 0,
+    "wind": 0
+  },
+  "out": "minecraft:emerald",
+  "outCount": 2,
+  "outData": {}
+}

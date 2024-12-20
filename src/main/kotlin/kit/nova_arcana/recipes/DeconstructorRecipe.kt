@@ -43,7 +43,7 @@ class ManaOutputs(val fire: Int, val ice: Int, val earth: Int, val wind: Int, va
     }
 }
 
-class DeconstructorRecipe(val input: Ingredient, val output: ManaOutputs): Recipe<PedestalEntity> {
+class DeconstructorRecipe(val input: Ingredient, val output: ManaOutputs, private val id: Identifier): Recipe<PedestalEntity> {
     override fun matches(inventory: PedestalEntity, world: World): Boolean {
         return input.test(inventory.inv)
     }
@@ -61,7 +61,7 @@ class DeconstructorRecipe(val input: Ingredient, val output: ManaOutputs): Recip
     }
 
     override fun getId(): Identifier {
-        return Identifier("nova_arcana:deconstructor_crafting")
+        return id
     }
 
     override fun getSerializer(): RecipeSerializer<*> {
@@ -82,11 +82,11 @@ object DeconstructorRecipeSer: RecipeSerializer<DeconstructorRecipe> {
         val fmt: JsonFormat = Gson().fromJson(json, JsonFormat::class.java)
         val input = Ingredient.fromJson(fmt.ingredient)
         val output: ManaOutputs = Gson().fromJson(fmt.output, ManaOutputs::class.java)
-        return DeconstructorRecipe(input, output)
+        return DeconstructorRecipe(input, output, id)
     }
 
     override fun read(id: Identifier, buf: PacketByteBuf): DeconstructorRecipe {
-        return DeconstructorRecipe(Ingredient.fromPacket(buf), ManaOutputs.readBuf(buf))
+        return DeconstructorRecipe(Ingredient.fromPacket(buf), ManaOutputs.readBuf(buf), id)
     }
 
     override fun write(buf: PacketByteBuf, recipe: DeconstructorRecipe) {

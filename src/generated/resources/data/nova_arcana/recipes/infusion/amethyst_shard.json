@@ -1,0 +1,22 @@
+{
+  "type": "nova_arcana:infusion",
+  "central": {
+    "item": "minecraft:lapis_lazuli"
+  },
+  "inputs": [
+    {
+      "item": "minecraft:amethyst_shard"
+    }
+  ],
+  "manaInputs": {
+    "earth": 0,
+    "fire": 0,
+    "ice": 0,
+    "nil": 20,
+    "spirit": 0,
+    "wind": 0
+  },
+  "out": "minecraft:amethyst_shard",
+  "outCount": 2,
+  "outData": {}
+}

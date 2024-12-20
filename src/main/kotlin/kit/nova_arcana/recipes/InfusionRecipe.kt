@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.world.World
 import org.slf4j.LoggerFactory
 
-class InfusionRecipe(val output: ItemStack, val central: Ingredient, val inputs: List<Ingredient>, val manaIn: ManaOutputs): Recipe<InfusionPedestals> {
+class InfusionRecipe(val output: ItemStack, val central: Ingredient, val inputs: List<Ingredient>, val manaIn: ManaOutputs, private val id: Identifier): Recipe<InfusionPedestals> {
 
     override fun matches(inventory: InfusionPedestals, world: World): Boolean {
         val logger = LoggerFactory.getLogger("pedestal_crafting")
@@ -58,7 +58,7 @@ class InfusionRecipe(val output: ItemStack, val central: Ingredient, val inputs:
     }
 
     override fun getId(): Identifier {
-        return Identifier("nova_arcana:fusion_crafting")
+        return id
     }
 
     override fun getSerializer(): RecipeSerializer<*> {
@@ -101,9 +101,9 @@ object InfusionSer: RecipeSerializer<InfusionRecipe> {
                 continue
             } catch (_: Exception) {}
         }
-        return InfusionRecipe(outStk, central, ingredients, manaIn)
+        return InfusionRecipe(outStk, central, ingredients, manaIn, id)
     }
-    override fun read(id: Identifier, buf: PacketByteBuf): InfusionRecipe {
+    override fun read(id: Identifier, buf: PacketByteBuf): InfusionRecipe? {
         val output = buf.readItemStack()
         val central = Ingredient.fromPacket(buf)
         val terminator = buf.readInt()
@@ -112,7 +112,7 @@ object InfusionSer: RecipeSerializer<InfusionRecipe> {
             inputs += Ingredient.fromPacket(buf)
         }
         val manaIn = ManaOutputs.readBuf(buf)
-        return InfusionRecipe(output, central, inputs, manaIn)
+        return InfusionRecipe(output, central, inputs, manaIn, id)
     }
 
     override fun write(buf: PacketByteBuf, recipe: InfusionRecipe) {

@@ -1,0 +1,22 @@
+{
+  "type": "nova_arcana:infusion",
+  "central": {
+    "item": "minecraft:lapis_lazuli"
+  },
+  "inputs": [
+    {
+      "item": "minecraft:quartz"
+    }
+  ],
+  "manaInputs": {
+    "earth": 0,
+    "fire": 0,
+    "ice": 0,
+    "nil": 0,
+    "spirit": 20,
+    "wind": 0
+  },
+  "out": "minecraft:quartz",
+  "outCount": 2,
+  "outData": {}
+}

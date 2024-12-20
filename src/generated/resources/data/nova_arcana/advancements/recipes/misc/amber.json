@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_feather": {
+    "has_honey_bottle": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:feather"
+              "minecraft:honey_bottle"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_feather",
+      "has_honey_bottle",
       "has_the_recipe"
     ]
   ],

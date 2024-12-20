@@ -1,0 +1,31 @@
+{
+  "type": "nova_arcana:infusion",
+  "central": {
+    "item": "minecraft:stone_bricks"
+  },
+  "inputs": [
+    {
+      "item": "nova_arcana:ruby"
+    },
+    {
+      "item": "nova_arcana:ruby"
+    },
+    {
+      "item": "nova_arcana:ruby"
+    },
+    {
+      "item": "nova_arcana:amber"
+    }
+  ],
+  "manaInputs": {
+    "earth": 0,
+    "fire": 30,
+    "ice": 0,
+    "nil": 0,
+    "spirit": 0,
+    "wind": 10
+  },
+  "out": "nova_arcana:ritual-forge",
+  "outCount": 1,
+  "outData": {}
+}

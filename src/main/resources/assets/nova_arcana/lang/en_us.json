@@ -22,5 +22,6 @@
   "block.nova_arcana.mana-vessel-earth": "Mana Vessel: Earth",
   "block.nova_arcana.mana-vessel-wind": "Mana Vessel: Wind",
   "block.nova_arcana.mana-vessel-spirit": "Mana Vessel: Spirit",
-  "block.nova_arcana.mana-vessel-void": "Mana Vessel: Void"
+  "block.nova_arcana.mana-vessel-void": "Mana Vessel: Void",
+  "emi.category.nova_arcana.infusion": "Infusion"
 }

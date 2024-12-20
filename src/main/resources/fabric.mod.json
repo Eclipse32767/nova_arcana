@@ -33,6 +33,12 @@
 				"adapter": "kotlin"
 			}
 		],
+		"emi": [
+			{
+				"value": "kit.nova_arcana.NovaEmiPlugin",
+				"adapter": "kotlin"
+			}
+		],
 		"cardinal-components": [
 			{
 				"value": "kit.nova_arcana.Components",

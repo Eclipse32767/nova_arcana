@@ -12,6 +12,7 @@
     "AAA"
   ],
   "result": {
+    "count": 4,
     "item": "nova_arcana:pedestal"
   },
   "show_notification": true

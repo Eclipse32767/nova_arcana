@@ -1,0 +1,15 @@
+// 1.20.1	2024-12-20T13:28:07.077995532	Nova Arcana/Block Loot Tables
+2f941182da2e1d328fcb60849cbfa39e30498ca2 data/nova_arcana/loot_tables/blocks/mana-vessel-earth.json
+16656d5465c609dcdf231d9ae8c2838788c061ee data/nova_arcana/loot_tables/blocks/deconstructor.json
+d13541f3952b1e9bcf555495225b08c117f9bb52 data/nova_arcana/loot_tables/blocks/ritual-soaring.json
+b202f09713ef3ba78920aade48e88885fdc24f03 data/nova_arcana/loot_tables/blocks/mana-vessel-ice.json
+9495dcd466dcedeb66fe53486a4c3d2324be2c36 data/nova_arcana/loot_tables/blocks/mana-vessel-void.json
+795201faf60e0652449fdc888954b400162ecb14 data/nova_arcana/loot_tables/blocks/staff-workbench.json
+6d9888fdaf8438864913633126d7b6abcb49588e data/nova_arcana/loot_tables/blocks/ritual-hoard.json
+3e204d529defc3ccd7109c704648e76b03fc2cee data/nova_arcana/loot_tables/blocks/pedestal.json
+17936560ecfbe926a76ba75d83df70079e4a095c data/nova_arcana/loot_tables/blocks/mana-vessel-fire.json
+b91740276e07b6cd16a9c7f3e1d1a60411736c28 data/nova_arcana/loot_tables/blocks/ritual-prison.json
+c29737e38d8b9377e6f10cfe0a0514f15339d9b5 data/nova_arcana/loot_tables/blocks/infusion-stone.json
+78ac28ec790c7d5a03bad7ffe5bb062517e83737 data/nova_arcana/loot_tables/blocks/mana-vessel-spirit.json
+6842f17500e46494d6680ac0f4dcf5f23e0e2645 data/nova_arcana/loot_tables/blocks/ritual-forge.json
+5150237ab462b85fbc0da126c5b8274fdee34203 data/nova_arcana/loot_tables/blocks/mana-vessel-wind.json

@@ -44,7 +44,7 @@ class RitualForge(settings: Settings) : BlockWithEntity(settings.luminance { if 
 }
 class RitualForgeBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(ModBlockEntities.RIT_FORGE_TYPE, pos, state) {
     val reach = 2
-    val manacost = ManaOutputs(10, 0, 0, 5, 0, 0)
+    val manacost = ManaOutputs(2, 0, 0, 1, 0, 0)
     private val logger = LoggerFactory.getLogger("nova_arcana")
     fun tick(world: World, pos: BlockPos, state: BlockState) {
         if (world.isClient) return

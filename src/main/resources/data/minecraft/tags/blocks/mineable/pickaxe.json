@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "nova_arcana:pedestal",
+    "nova_arcana:deconstructor",
+    "nova_arcana:magic-barrier",
+    "nova_arcana:ritual-soaring",
+    "nova_arcana:ritual-forge",
+    "nova_arcana:ritual-hoard",
+    "nova_arcana:ritual-prison"
+  ]
+}
