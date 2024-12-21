@@ -1,5 +1,6 @@
 package kit.nova_arcana.fx
 
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import team.lodestar.lodestone.registry.common.particle.LodestoneParticleRegistry

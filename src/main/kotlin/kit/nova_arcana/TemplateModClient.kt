@@ -12,14 +12,12 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
-import net.minecraft.block.Blocks
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer
 import net.minecraft.client.util.InputUtil
-import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Identifier
@@ -43,6 +41,8 @@ object TemplateModClient : ClientModInitializer {
 		EntityRendererRegistry.register(ModEntities.InfusionParticleType) {FlyingItemEntityRenderer(it)}
 		EntityRendererRegistry.register(ModEntities.ManaBeamType) {FlyingItemEntityRenderer(it)}
 		EntityRendererRegistry.register(ModEntities.MagicMissileType) {FlyingItemEntityRenderer(it)}
+
+		ModS2CMessages.regHandlers()
 
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.INFUSION_STONE, RenderLayer.getTranslucent())
 		for (blk in listOf(ModBlocks.MANA_VESSEL_ICE, ModBlocks.MANA_VESSEL_FIRE, ModBlocks.MANA_VESSEL_VOID, ModBlocks.MANA_VESSEL_WIND, ModBlocks.MANA_VESSEL_EARTH, ModBlocks.MANA_VESSEL_SPIRIT)) {
@@ -82,7 +82,7 @@ object TemplateModClient : ClientModInitializer {
 							SoundEvent.of(Identifier("block.piston.extend"), 10.0F),
 							SoundCategory.PLAYERS
 						)
-						ClientPlayNetworking.send(ModMessages.SPELLSWAP_ID, PacketByteBufs.create())
+						ClientPlayNetworking.send(ModC2SMessages.SPELLSWAP_ID, PacketByteBufs.create())
 					}
 				} catch (_: Exception) {}
 

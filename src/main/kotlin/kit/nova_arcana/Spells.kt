@@ -8,7 +8,10 @@ import kit.nova_arcana.fx.WispTrailEffects
 import kit.nova_arcana.items.WandRank
 import kit.nova_arcana.items.mkRank
 import kit.nova_arcana.mixin.InvAccessor
+import kit.nova_arcana.networking.fx.OutlineNetEffect
+import kit.nova_arcana.networking.fx.RingNetEffect
 import kit.nova_arcana.spells.*
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
@@ -23,6 +26,7 @@ import net.minecraft.item.Items
 import net.minecraft.loot.context.LootContextParameterSet
 import net.minecraft.loot.context.LootContextParameters
 import net.minecraft.registry.RegistryKeys
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
@@ -98,9 +102,17 @@ fun excavateParticle(s0: Float, pos: BlockPos, st: BlockState, density: Int): Ou
     val fx = OutlineEffects(Color(1, 153, 1), Color(9, 249, 149), density, 40, s0, st, pos)
     return fx
 }
+fun excavateParticlePacket(s0: Float, pos: BlockPos, full: Boolean, density: Int): OutlineNetEffect {
+    val fx = OutlineNetEffect(Color(1, 153, 1), Color(9, 249, 149), density, 40, s0, full, pos)
+    return fx
+}
 
 fun supportParticle(s0: Float, pos: BlockPos, st: BlockState, density: Int): OutlineEffects {
     val fx = OutlineEffects(Color(5, 104, 186), Color(93, 239, 252), density, 40, s0, st, pos)
+    return fx
+}
+fun supportParticlePacket(s0: Float, pos: BlockPos, full: Boolean, density: Int): OutlineNetEffect {
+    val fx = OutlineNetEffect(Color(5, 104, 186), Color(93, 239, 252), density, 40, s0, full, pos)
     return fx
 }
 
@@ -113,6 +125,9 @@ fun recoverParticle(s0: Float, pos: Vec3d, rad: Double, density: Int): RingEffec
     val fx = RingEffects(Color(246, 236, 236), Color(255, 197, 197), 40, density, s0, pos, rad)
     fx.motion = Vec3d(0.0, 0.1, 0.0)
     return fx
+}
+fun recoverParticlePacket(s0: Float, pos: Vec3d, rad: Double, density: Int): RingNetEffect {
+    return RingNetEffect(Color(246, 236, 236), Color(255, 197, 197), 40, density, s0, pos, rad, Vec3d(0.0, 0.1, 0.0))
 }
 fun launchPlayer(user: PlayerEntity, pitch: Float, yaw: Float, roll: Float, speed: Float, divergence: Float) {
     val vec3d = user.velocity
@@ -178,10 +193,12 @@ fun regSpells() {
         if (h.mana >= cost) {
         } else return@run SpellCastResult.FAIL
         val targets = world.getOtherEntities(null, Box.of(user.pos, area, area, area))
-        if (world.isClient) {
-            val fx = RingEffects(Color(100, 0, 100), Color(0, 100, 200), 40, 20, 0.5f, user.pos, area/2)
-            fx.motion = Vec3d(0.0, 0.1, 0.0)
-            fx.spawn(world)
+        if (!world.isClient) {
+            val packet = RingNetEffect(Color(100, 0, 100), Color(0, 100, 200), 40, 20, 0.5f, user.pos, area/2, Vec3d(0.0, 0.1, 0.0))
+            for (plr in PlayerLookup.tracking(user).filter { it != user }) {
+                packet.sendTo(plr)
+            }
+            packet.sendTo(user as ServerPlayerEntity)
         }
         for (target in targets) {
             if (target is LivingEntity) {

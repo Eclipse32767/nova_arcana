@@ -4,19 +4,11 @@ import kit.nova_arcana.armor.MagicArmor
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.ItemStack
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.entry.EmptyEntry
 import net.minecraft.loot.entry.ItemEntry
-import net.minecraft.loot.entry.LootPoolEntry
-import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Vec3d
 import org.slf4j.LoggerFactory
-import kotlin.math.abs
-import kotlin.math.sqrt
-
 
 
 object TemplateMod : ModInitializer {
@@ -37,7 +29,7 @@ object TemplateMod : ModInitializer {
 		val recipes = Recipes
 		val blks = ModBlocks
 		val blkEntities = ModBlockEntities
-		val net = ModMessages
+		val net = ModC2SMessages
 		if (net.SPELLSWAP) {
 			logger.atInfo().log("spell swapping successfully registered")
 		}

@@ -5,10 +5,12 @@ import kit.nova_arcana.entities.ExcavateItem
 import kit.nova_arcana.entities.PlacementWisp
 import kit.nova_arcana.items.WandRank
 import kit.nova_arcana.items.mkRank
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Items
 import net.minecraft.loot.context.LootContextParameterSet
 import net.minecraft.loot.context.LootContextParameters
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -57,10 +59,13 @@ fun regSubstitute(logger: Logger) {
             for (blockPos in positions) {
                 val hardness = world.getBlockState(blockPos).block.hardness
                 if (hardness > 0 && hardness < 9) {
-                    if (world.isClient) {
-                        excavateParticle(0.25f, blockPos, world.getBlockState(blockPos), 5)
-                        continue
-                    }
+                    if (!world.isClient) {
+                        val packet = excavateParticlePacket(0.25f, blockPos, false, 5)
+                        for (plr in PlayerLookup.tracking(world as ServerWorld, blockPos).filter { it != user }) {
+                            packet.sendTo(plr)
+                        }
+                        packet.sendTo(user as ServerPlayerEntity)
+                    } else return@run SpellCastResult.SUCCESS
                     if (user.offHandStack.isEmpty) break
                     user.offHandStack.decrement(1)
                     val drops = world.getBlockState(blockPos).getDroppedStacks(
@@ -95,7 +100,7 @@ fun regSubstitute(logger: Logger) {
         val reach = if (mod == SpellMod.AREA) 20.0 else 10.0
         val count = if (mod == SpellMod.PWR) 1 else 0
         val cast = entity.raycast(reach, 0.0f, true)
-        if (!world.isClient) return@run
+        if (world.isClient) return@run
         if (cast.type == HitResult.Type.BLOCK) {
             val blockHit = cast as BlockHitResult
             val perpendicular = when (blockHit.side.axis) {
@@ -114,7 +119,14 @@ fun regSubstitute(logger: Logger) {
             positions.distinct()
             for (pos in positions) {
                 //excavateParticle(0.10f, 0.0f).createBlockOutline(world, pos, world.getBlockState(pos))
-                if (ClientTickCounter.ticksInGame % 4 == 0L) supportParticle(0.10f, pos, world.getBlockState(pos), 0).spawn(world)
+                //if (ClientTickCounter.ticksInGame % 4 == 0L) supportParticle(0.10f, pos, world.getBlockState(pos), 0).spawn(world)
+                if (world is ServerWorld) {
+                    val packet = supportParticlePacket(0.10f, pos, false, 0)
+                    for (plr in PlayerLookup.tracking(world as ServerWorld, pos).filter { it != entity }) {
+                        packet.sendTo(plr)
+                    }
+                    if (entity is ServerPlayerEntity) packet.sendTo(entity)
+                }
             }
         }
     }}

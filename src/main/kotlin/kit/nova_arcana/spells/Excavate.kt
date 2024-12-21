@@ -4,9 +4,11 @@ import kit.nova_arcana.*
 import kit.nova_arcana.entities.ExcavateItem
 import kit.nova_arcana.items.WandRank
 import kit.nova_arcana.items.mkRank
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup
 import net.minecraft.item.Items
 import net.minecraft.loot.context.LootContextParameterSet
 import net.minecraft.loot.context.LootContextParameters
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -39,10 +41,13 @@ fun regExcavate(logger: Logger) {
                 val blockPos = blockHit.blockPos
                 val hardness = world.getBlockState(blockPos).block.hardness
                 if (hardness > 0 && hardness < maxHardness) {
-                    if (world.isClient) {
-                        excavateParticle(0.25f, blockPos, world.getBlockState(blockPos), 5).spawn(world)
-                        return@run SpellCastResult.SUCCESS
-                    }
+                    if (!world.isClient) {
+                        val packet = excavateParticlePacket(0.25f, blockPos, false, 5)
+                        for (plr in PlayerLookup.tracking(world as ServerWorld, blockPos).filter { it != user }) {
+                            packet.sendTo(plr)
+                        }
+                        packet.sendTo(user as ServerPlayerEntity)
+                    } else return@run SpellCastResult.SUCCESS
 
                     val drops = world.getBlockState(blockPos).getDroppedStacks(
                         LootContextParameterSet.Builder(world as ServerWorld?)
@@ -69,6 +74,12 @@ fun regExcavate(logger: Logger) {
         val cast = entity.raycast(reach, 0.0f, false)
         if (cast.type != HitResult.Type.BLOCK) return@run
         val hit = cast as BlockHitResult
-        if (world.isClient) excavateParticle(0.10f, hit.blockPos, world.getBlockState(hit.blockPos), 0).spawn(world)
+        if (!world.isClient) {
+            val packet = excavateParticlePacket(0.10f, hit.blockPos, false, 0)
+            for (plr in PlayerLookup.tracking(world as ServerWorld, hit.blockPos).filter { it != entity }) {
+                packet.sendTo(plr)
+            }
+            if (entity is ServerPlayerEntity) packet.sendTo(entity)
+        }
     }}
 }

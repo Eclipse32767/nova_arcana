@@ -3,6 +3,9 @@ package kit.nova_arcana.spells
 import kit.nova_arcana.*
 import kit.nova_arcana.items.WandRank
 import kit.nova_arcana.items.mkRank
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
@@ -34,7 +37,13 @@ fun regSupport(logger: Logger) {
                     dest,
                     ModBlocks.SUPPORT_BLOCK.defaultState
                 )
-                if (world.isClient) supportParticle(0.25f, dest, ModBlocks.SUPPORT_BLOCK.defaultState, 5).spawn(world)
+                if (!world.isClient) {
+                    val packet = supportParticlePacket(0.25f, dest, true, 5)
+                    for (plr in PlayerLookup.tracking(world as ServerWorld, dest).filter { it != user }) {
+                        packet.sendTo(plr)
+                    }
+                    packet.sendTo(user as ServerPlayerEntity)
+                }
                 h.mana -= cost
                 h.syncMana()
                 return@run SpellCastResult.SUCCESS
@@ -47,6 +56,12 @@ fun regSupport(logger: Logger) {
         if (cast.type != HitResult.Type.BLOCK) return@run
         val hit = cast as BlockHitResult
         val dest = hit.blockPos.offset(hit.side)
-        if (world.isClient) supportParticle(0.10f, dest, ModBlocks.SUPPORT_BLOCK.defaultState, 0).spawn(world)
+        if (!world.isClient) {
+            val packet = supportParticlePacket(0.10f, dest, true, 0)
+            for (plr in PlayerLookup.tracking(world as ServerWorld, dest).filter { it != entity }) {
+                packet.sendTo(plr)
+            }
+            if (entity is ServerPlayerEntity) packet.sendTo(entity)
+        }
     }}
 }

@@ -32,8 +32,8 @@ class PedestalRenderer(context: BlockEntityRendererFactory.Context): BlockEntity
         val stack = entity.getStack(0)
         matrices.push()
         if (world != null) {
-            val offset = sin((world.time + tickDelta) / 8.0) / 4.0;
-            matrices.translate(0.5, 1.25 + offset, 0.5)
+            //val offset = sin((world.time + tickDelta) / 8.0) / 4.0;
+            matrices.translate(0.5, 1.25, 0.5)
             if (stack.item is BlockItem) matrices.scale(1.5f, 1.5f, 1.5f)
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((world.time + tickDelta) * 4));
             //logger.atInfo().log("stack is a ${stack.item}")

@@ -3,7 +3,10 @@ package kit.nova_arcana.spells
 import kit.nova_arcana.*
 import kit.nova_arcana.items.WandRank
 import kit.nova_arcana.items.mkRank
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup
 import net.minecraft.entity.LivingEntity
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
@@ -34,7 +37,13 @@ fun regRecovery(logger: Logger) {
                     entity.heal(amount)
                 }
             }
-            if (world.isClient) recoverParticle(0.25f, user.pos.add(0.0, 1.0, 0.0), area.toDouble()/2, 40).spawn(world)
+            if (!world.isClient) {
+                val packet = recoverParticlePacket(0.25f, user.pos.add(0.0, 1.0, 0.0), area.toDouble()/2, 40)
+                for (plr in PlayerLookup.tracking(user).filter { it != user }) {
+                    packet.sendTo(plr)
+                }
+                packet.sendTo(user as ServerPlayerEntity)
+            }
             return@run SpellCastResult.SUCCESS
         }
     }
